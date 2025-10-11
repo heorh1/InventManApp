@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: .InventoryManagementApp/InventoryManagementApp/Dockerfile
+          file: ./InventoryManagementApp/InventoryManagementApp/Dockerfile
           push: true
           tags: |
             ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
