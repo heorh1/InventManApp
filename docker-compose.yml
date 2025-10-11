@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  web:
+    image: myacr.azurecr.io/mymvcapp:latest
+    ports:
+      - "80:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=${AZURE_SQL_CONNECTION_STRING}

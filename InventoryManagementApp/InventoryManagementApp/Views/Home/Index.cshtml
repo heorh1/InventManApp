@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<InventoryItem>
+
+<div class="text-center">
+    <h1 class="display-4">Sperma</h1>
+
+    @foreach (var item in Model)
+    {
+        <ul>
+            <li>@item.Id</li>
+        </ul>
+    }
+</div>
