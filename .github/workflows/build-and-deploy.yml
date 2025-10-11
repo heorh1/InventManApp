@@ -41,6 +41,19 @@ jobs:
             ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
 
+      - name: Configure Azure Web App settings
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          app-settings-json: |
+            [
+              {
+                "name": "ConnectionStrings__InventoryManagmentApp",
+                "value": "${{ secrets.AZURE_SQL_CONNECTIONSTRING }}",
+                "slotSetting": false
+              }
+            ]
+
       - name: Deploy to Azure Web App (set container image)
         env:
           ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
