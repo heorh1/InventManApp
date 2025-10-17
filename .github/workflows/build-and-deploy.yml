@@ -53,6 +53,12 @@ jobs:
                 "slotSetting": false
               }
             ]
+      - name: Apply EF Core migrations to Azure SQL
+        run: |
+          dotnet tool install --global dotnet-ef --version 9.*
+          dotnet ef database update --project ./InventoryManagementApp/InventoryManagementApp.csproj
+        env:
+          ConnectionStrings__InventoryManagmentApp: ${{ secrets.AZURE_SQL_CONNECTIONSTRING }}
 
       - name: Deploy to Azure Web App (set container image)
         env:
