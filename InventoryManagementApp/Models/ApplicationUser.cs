@@ -6,7 +6,8 @@ namespace InventoryManagementApp.Models
     {
         public string? FullName { get; set; }
 
-        public DateTime DateRegistred { get; set; }
+        public DateTime DateRegistered { get; set; } = DateTime.UtcNow;
 
+        public ICollection<Inventory>? Inventories { get; set; }
     }
 }
