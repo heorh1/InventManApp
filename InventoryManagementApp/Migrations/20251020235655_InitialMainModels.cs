@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InventoryManagementApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitIdentity : Migration
+    public partial class InitialMainModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,7 +31,7 @@ namespace InventoryManagementApp.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateRegistred = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateRegistered = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -50,6 +50,19 @@ namespace InventoryManagementApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,6 +171,90 @@ namespace InventoryManagementApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Inventories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomString1State = table.Column<bool>(type: "bit", nullable: false),
+                    CustomString1Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomString2State = table.Column<bool>(type: "bit", nullable: false),
+                    CustomString2Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomString3State = table.Column<bool>(type: "bit", nullable: false),
+                    CustomString3Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomInt1State = table.Column<bool>(type: "bit", nullable: false),
+                    CustomInt1Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomInt2State = table.Column<bool>(type: "bit", nullable: false),
+                    CustomInt2Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomInt3State = table.Column<bool>(type: "bit", nullable: false),
+                    CustomInt3Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomBool1State = table.Column<bool>(type: "bit", nullable: false),
+                    CustomBool1Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomBool2State = table.Column<bool>(type: "bit", nullable: false),
+                    CustomBool2Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomBool3State = table.Column<bool>(type: "bit", nullable: false),
+                    CustomBool3Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Inventories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Inventories_AspNetUsers_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Inventories_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InventoryItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InventoryId = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CustomString1Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomString2Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomString3Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomInt1Value = table.Column<int>(type: "int", nullable: true),
+                    CustomInt2Value = table.Column<int>(type: "int", nullable: true),
+                    CustomInt3Value = table.Column<int>(type: "int", nullable: true),
+                    CustomBool1Value = table.Column<bool>(type: "bit", nullable: true),
+                    CustomBool2Value = table.Column<bool>(type: "bit", nullable: true),
+                    CustomBool3Value = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InventoryItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InventoryItems_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_InventoryItems_Inventories_InventoryId",
+                        column: x => x.InventoryId,
+                        principalTable: "Inventories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -196,6 +293,26 @@ namespace InventoryManagementApp.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inventories_CategoryId",
+                table: "Inventories",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inventories_CreatorId",
+                table: "Inventories",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryItems_CreatedById",
+                table: "InventoryItems",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryItems_InventoryId",
+                table: "InventoryItems",
+                column: "InventoryId");
         }
 
         /// <inheritdoc />
@@ -217,10 +334,19 @@ namespace InventoryManagementApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "InventoryItems");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Inventories");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

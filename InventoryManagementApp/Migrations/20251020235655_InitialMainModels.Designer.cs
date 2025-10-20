@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagementApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251015221815_InitIdentity")]
-    partial class InitIdentity
+    [Migration("20251020235655_InitialMainModels")]
+    partial class InitialMainModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace InventoryManagementApp.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateRegistred")
+                    b.Property<DateTime>("DateRegistered")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -96,12 +96,162 @@ namespace InventoryManagementApp.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("InventoryManagementApp.Models.InventoryItem", b =>
+            modelBuilder.Entity("InventoryManagementApp.Models.Category", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("InventoryManagementApp.Models.Inventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CustomBool1Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CustomBool1State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CustomBool2Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CustomBool2State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CustomBool3Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CustomBool3State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CustomInt1Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CustomInt1State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CustomInt2Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CustomInt2State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CustomInt3Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CustomInt3State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CustomString1Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CustomString1State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CustomString2Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CustomString2State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CustomString3Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("CustomString3State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Inventories");
+                });
+
+            modelBuilder.Entity("InventoryManagementApp.Models.InventoryItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("CustomBool1Value")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("CustomBool2Value")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("CustomBool3Value")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("CustomInt1Value")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CustomInt2Value")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CustomInt3Value")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CustomString1Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomString2Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomString3Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InventoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("InventoryId");
 
                     b.ToTable("InventoryItems");
                 });
@@ -243,6 +393,41 @@ namespace InventoryManagementApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("InventoryManagementApp.Models.Inventory", b =>
+                {
+                    b.HasOne("InventoryManagementApp.Models.Category", "Category")
+                        .WithMany("Inventories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("InventoryManagementApp.Models.ApplicationUser", "Creator")
+                        .WithMany("Inventories")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("InventoryManagementApp.Models.InventoryItem", b =>
+                {
+                    b.HasOne("InventoryManagementApp.Models.ApplicationUser", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("InventoryManagementApp.Models.Inventory", "Inventory")
+                        .WithMany("Items")
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("Inventory");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -292,6 +477,21 @@ namespace InventoryManagementApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("InventoryManagementApp.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Inventories");
+                });
+
+            modelBuilder.Entity("InventoryManagementApp.Models.Category", b =>
+                {
+                    b.Navigation("Inventories");
+                });
+
+            modelBuilder.Entity("InventoryManagementApp.Models.Inventory", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
