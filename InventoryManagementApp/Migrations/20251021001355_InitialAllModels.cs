@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InventoryManagementApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMainModels : Migration
+    public partial class InitialAllModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
