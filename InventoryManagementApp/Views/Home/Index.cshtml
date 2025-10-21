@@ -1,15 +1,38 @@
-﻿@{
+﻿@model IEnumerable<Inventory>
+
+@{
     ViewData["Title"] = "Home Page";
 }
-@model IEnumerable<InventoryItem>
 
 <div class="text-center">
-    <h1 class="display-4">It still a Sperma</h1>
+    <h1 class="display-4">Inventories from Azure DB</h1>
 
-    @foreach (var item in Model)
+    @if (Model.Any())
     {
-        <ul>
-            <li>@item.Id</li>
-        </ul>
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>IsPublic</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var inventory in Model)
+                {
+                    <tr>
+                        <td>@inventory.Id</td>
+                        <td>@inventory.Title</td>
+                        <td>@inventory.Description</td>
+                        <td>@inventory.IsPublic</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No inventories found in the database.</p>
     }
 </div>

@@ -10,8 +10,8 @@ namespace InventoryManagementApp.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            var items = await db.InventoryItems.ToListAsync();
-            return View(items);
+            var inventories = await db.Inventories.ToListAsync();
+            return View(inventories);
         }
     }
 }
