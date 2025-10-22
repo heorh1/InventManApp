@@ -26,5 +26,8 @@ namespace InventoryManagementApp.Models
         public bool? CustomBool1Value { get; set; }
         public bool? CustomBool2Value { get; set; }
         public bool? CustomBool3Value { get; set; }
+
+        [Timestamp]
+        public byte[]? RowVersion { get; set; }
     }
 }

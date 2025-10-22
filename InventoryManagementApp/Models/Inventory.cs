@@ -1,4 +1,6 @@
-﻿namespace InventoryManagementApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace InventoryManagementApp.Models
 {
     public class Inventory
     {
@@ -46,5 +48,8 @@
         public string? CustomBool3Name { get; set; }
 
         public ICollection<InventoryItem>? Items { get; set; }
+
+        [Timestamp]
+        public byte[]? RowVersion { get; set; }
     }
 }

@@ -45,6 +45,14 @@ namespace InventoryManagementApp.Data
                 .WithMany()                       // User does not track items collection
                 .HasForeignKey(ii => ii.CreatedById)
                 .OnDelete(DeleteBehavior.SetNull); // Keep item if user deleted
+
+            modelBuilder.Entity<Inventory>()
+                .Property(i => i.RowVersion)
+                .IsRowVersion();
+
+            modelBuilder.Entity<InventoryItem>()
+                .Property(ii => ii.RowVersion)
+                .IsRowVersion();
         }
     }
 }

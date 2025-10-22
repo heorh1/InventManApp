@@ -12,8 +12,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("InventoryManagmentApp")));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
-        options.SignIn.RequireConfirmedAccount = false) // можно true, если нужен email confirmation
-    .AddRoles<IdentityRole>() // если планируешь роли
+        options.SignIn.RequireConfirmedAccount = false) 
+    .AddRoles<IdentityRole>() 
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI();
 
@@ -43,9 +43,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication(); 
+
 app.UseAuthorization();
 
 app.MapStaticAssets();
