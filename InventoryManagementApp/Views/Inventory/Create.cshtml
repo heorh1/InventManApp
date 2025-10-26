@@ -1,0 +1,70 @@
+﻿@model InventoryManagementApp.ViewModels.Inventory.InventoryCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Inventory";
+}
+
+<h2>Create Inventory</h2>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group form-check">
+        <input asp-for="IsPublic" class="form-check-input" />
+        <label asp-for="IsPublic" class="form-check-label">Public inventory</label>
+    </div>
+
+    <hr />
+    <h4>Custom string fields</h4>
+    <div>
+        <input asp-for="CustomString1State" type="checkbox" /> Enable
+        <input asp-for="CustomString1Name" placeholder="Field name" />
+    </div>
+    <div>
+        <input asp-for="CustomString2State" type="checkbox" /> Enable
+        <input asp-for="CustomString2Name" placeholder="Field name" />
+    </div>
+    <div>
+        <input asp-for="CustomString3State" type="checkbox" /> Enable
+        <input asp-for="CustomString3Name" placeholder="Field name" />
+    </div>
+
+    <hr />
+    <h4>Custom int fields</h4>
+    <div>
+        <input asp-for="CustomInt1State" type="checkbox" /> Enable
+        <input asp-for="CustomInt1Name" placeholder="Field name" />
+    </div>
+    <div>
+        <input asp-for="CustomInt2State" type="checkbox" /> Enable
+        <input asp-for="CustomInt2Name" placeholder="Field name" />
+    </div>
+    <div>
+        <input asp-for="CustomInt3State" type="checkbox" /> Enable
+        <input asp-for="CustomInt3Name" placeholder="Field name" />
+    </div>
+
+    <hr />
+    <h4>Custom bool fields</h4>
+    <div>
+        <input asp-for="CustomBool1State" type="checkbox" /> Enable
+        <input asp-for="CustomBool1Name" placeholder="Field name" />
+    </div>
+    <div>
+        <input asp-for="CustomBool2State" type="checkbox" /> Enable
+        <input asp-for="CustomBool2Name" placeholder="Field name" />
+    </div>
+    <div>
+        <input asp-for="CustomBool3State" type="checkbox" /> Enable
+        <input asp-for="CustomBool3Name" placeholder="Field name" />
+    </div>
+
+    <hr />
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
