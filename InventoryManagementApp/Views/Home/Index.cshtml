@@ -4,27 +4,6 @@
 
 <div class="container mt-4">
 
-    <!-- Верхнее меню -->
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-            <span class="fs-4 fw-bold">Inventory App</span>
-        </a>
-
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a asp-controller="Home" asp-action="Index" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a asp-controller="Home" asp-action="Profile" class="nav-link px-2 link-dark">Profile</a></li>
-        </ul>
-
-        <form class="col-md-3 d-flex" role="search">
-            <input type="search" class="form-control me-2" placeholder="Search..." aria-label="Search">
-        </form>
-
-        <div class="col-md-2 text-end">
-            <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary me-2">Login</a>
-            <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register</a>
-        </div>
-    </header>
-
     <!-- Last Inventories -->
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-light fw-bold">
@@ -50,6 +29,13 @@
                 </tbody>
             </table>
         </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="card-footer text-start">
+                <a asp-controller="Inventory" asp-action="Create" class="btn btn-primary">Create Inventory</a>
+            </div>
+        }
     </div>
 
     <!-- Top 5 Popular Inventories -->
