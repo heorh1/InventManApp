@@ -8,10 +8,19 @@ namespace InventoryManagementApp.Controllers
 {
     public class HomeController(ApplicationDbContext db) : Controller
     {
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var inventories = await db.Inventories.ToListAsync();
-            return View(inventories);
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult Profile()
+        {
+            return View();
         }
     }
 }

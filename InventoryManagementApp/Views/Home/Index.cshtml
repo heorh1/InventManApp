@@ -1,11 +1,78 @@
-﻿<h2>Welcome to Inventory App</h2>
+﻿@{
+    ViewData["Title"] = "Home";
+}
 
-@if (User.Identity?.IsAuthenticated ?? false)
-{
-    <a class="btn btn-primary" asp-controller="Inventory" asp-action="Create">Create Inventory</a>
-    <a class="btn btn-secondary" asp-controller="Inventory" asp-action="Index">View My Inventories</a>
-}
-else
-{
-    <p>Please <a asp-area="Identity" asp-page="/Account/Login">login</a> to create inventories.</p>
-}
+<div class="container mt-4">
+
+    <!-- Верхнее меню -->
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <span class="fs-4 fw-bold">Inventory App</span>
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a asp-controller="Home" asp-action="Index" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a asp-controller="Home" asp-action="Profile" class="nav-link px-2 link-dark">Profile</a></li>
+        </ul>
+
+        <form class="col-md-3 d-flex" role="search">
+            <input type="search" class="form-control me-2" placeholder="Search..." aria-label="Search">
+        </form>
+
+        <div class="col-md-2 text-end">
+            <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary me-2">Login</a>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register</a>
+        </div>
+    </header>
+
+    <!-- Last Inventories -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light fw-bold">
+            Last Inventories
+        </div>
+        <div class="card-body p-0" style="max-height: 250px; overflow-y: auto;">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Creator</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Inventory1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Top 5 Popular Inventories -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-light fw-bold">
+            Top 5 Popular Inventories
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Inventory Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Inventory1</td></tr>
+                    <tr><td>2</td><td>Inventory2</td></tr>
+                    <tr><td>3</td><td>Inventory3</td></tr>
+                    <tr><td>4</td><td>Inventory4</td></tr>
+                    <tr><td>5</td><td>Inventory5</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
