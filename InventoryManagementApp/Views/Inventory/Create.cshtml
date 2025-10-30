@@ -17,7 +17,7 @@
 </ul>
 
 <div class="tab-content">
-    <!-- Plugs -->
+    <!-- Заглушки -->
     <div class="tab-pane fade show active p-3" id="items" role="tabpanel">In progress…</div>
     <div class="tab-pane fade p-3" id="chat" role="tabpanel">In progress…</div>
     <div class="tab-pane fade p-3" id="settings" role="tabpanel">In progress…</div>
@@ -25,24 +25,148 @@
     <div class="tab-pane fade p-3" id="access" role="tabpanel">In progress…</div>
     <div class="tab-pane fade p-3" id="stats" role="tabpanel">In progress…</div>
 
-    <!-- Fields -->
+    <!-- Вкладка Fields -->
     <div class="tab-pane fade p-3" id="fields" role="tabpanel">
         <form asp-action="Create" method="post">
-            @foreach (var group in new[] { "String", "Int", "Bool", "Multiline", "Link" })
-            {
-                <h5>@group fields</h5>
-                @for (int i = 1; i <= 3; i++)
-                {
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" asp-for="@Model.GetType().GetProperty($"Custom{group}{i}State")!.GetValue(Model)" />
-                        <label class="form-check-label">Field @i</label>
-                    </div>
-                    <div class="mb-3">
-                        <input class="form-control mb-1" placeholder="Name" asp-for="@Model.GetType().GetProperty($"Custom{group}{i}Name")!.GetValue(Model)" />
-                        <input class="form-control" placeholder="Description (tooltip)" asp-for="@Model.GetType().GetProperty($"Custom{group}{i}Description")!.GetValue(Model)" />
-                    </div>
-                }
-            }
+            <h5>Single-line text fields</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomString1State" />
+                <label class="form-check-label">Field 1</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomString1Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomString1Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomString2State" />
+                <label class="form-check-label">Field 2</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomString2Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomString2Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomString3State" />
+                <label class="form-check-label">Field 3</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomString3Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomString3Description" />
+            </div>
+
+            <h5>Numeric fields</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomInt1State" />
+                <label class="form-check-label">Field 1</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomInt1Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomInt1Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomInt2State" />
+                <label class="form-check-label">Field 2</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomInt2Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomInt2Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomInt3State" />
+                <label class="form-check-label">Field 3</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomInt3Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomInt3Description" />
+            </div>
+
+            <h5>Boolean fields</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomBool1State" />
+                <label class="form-check-label">Field 1</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomBool1Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomBool1Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomBool2State" />
+                <label class="form-check-label">Field 2</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomBool2Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomBool2Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomBool3State" />
+                <label class="form-check-label">Field 3</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomBool3Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomBool3Description" />
+            </div>
+
+            <h5>Multi-line text fields</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomMultiline1State" />
+                <label class="form-check-label">Field 1</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomMultiline1Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomMultiline1Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomMultiline2State" />
+                <label class="form-check-label">Field 2</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomMultiline2Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomMultiline2Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomMultiline3State" />
+                <label class="form-check-label">Field 3</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomMultiline3Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomMultiline3Description" />
+            </div>
+
+            <h5>Document/Image fields</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomLink1State" />
+                <label class="form-check-label">Field 1</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomLink1Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomLink1Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomLink2State" />
+                <label class="form-check-label">Field 2</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomLink2Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomLink2Description" />
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="CustomLink3State" />
+                <label class="form-check-label">Field 3</label>
+            </div>
+            <div class="mb-3">
+                <input class="form-control mb-1" placeholder="Title" asp-for="CustomLink3Name" />
+                <input class="form-control" placeholder="Description (tooltip)" asp-for="CustomLink3Description" />
+            </div>
 
             <button type="submit" class="btn btn-primary mt-2">Create Inventory</button>
         </form>
