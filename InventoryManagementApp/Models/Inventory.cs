@@ -61,28 +61,28 @@ namespace InventoryManagementApp.Models
 
         // Image link fields
         public bool CustomLink1State { get; set; }
-        public string? CustomLink1Title { get; set; }
+        public string? CustomLink1Name { get; set; }
         public string? CustomLink1Description { get; set; }
 
         public bool CustomLink2State { get; set; }
-        public string? CustomLink2Title { get; set; }
+        public string? CustomLink2Name { get; set; }
         public string? CustomLink2Description { get; set; }
 
         public bool CustomLink3State { get; set; }
-        public string? CustomLink3Title { get; set; }
+        public string? CustomLink3Name { get; set; }
         public string? CustomLink3Description { get; set; }
 
         // Multi-line text fields
         public bool CustomMultiline1State { get; set; }
-        public string? CustomMultiline1Title { get; set; }
+        public string? CustomMultiline1Name { get; set; }
         public string? CustomMultiline1Description { get; set; }
 
         public bool CustomMultiline2State { get; set; }
-        public string? CustomMultiline2Title { get; set; }
+        public string? CustomMultiline2Name { get; set; }
         public string? CustomMultiline2Description { get; set; }
 
         public bool CustomMultiline3State { get; set; }
-        public string? CustomMultiline3Title { get; set; }
+        public string? CustomMultiline3Name { get; set; }
         public string? CustomMultiline3Description { get; set; }
 
         public ICollection<InventoryItem>? Items { get; set; }
