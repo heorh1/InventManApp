@@ -1,0 +1,73 @@
+﻿@model InventoryManagementApp.ViewModels.Inventory.InventoryCreateViewModel
+
+<div class="tab-pane fade" id="fields" role="tabpanel">
+
+    <h5>Single-line Text Fields</h5>
+    @for (int i = 1; i <= 3; i++)
+    {
+        <div class="mb-3 form-check">
+            <input asp-for="@Model.GetType().GetProperty($"CustomString{i}State")" class="form-check-input" />
+            <label asp-for="@Model.GetType().GetProperty($"CustomString{i}State")" class="form-check-label">Enable Field @i</label>
+        </div>
+        <div class="mb-3">
+            <input asp-for="@Model.GetType().GetProperty($"CustomString{i}Name")" class="form-control" placeholder="Field Name" />
+            <textarea asp-for="@Model.GetType().GetProperty($"CustomString{i}Description")" class="form-control mt-1" placeholder="Description"></textarea>
+        </div>
+    }
+
+    <h5>Numeric Fields</h5>
+    @for (int i = 1; i <= 3; i++)
+    {
+        <div class="mb-3 form-check">
+            <input asp-for="@Model.GetType().GetProperty($"CustomInt{i}State")" class="form-check-input" />
+            <label asp-for="@Model.GetType().GetProperty($"CustomInt{i}State")" class="form-check-label">Enable Field @i</label>
+        </div>
+        <div class="mb-3">
+            <input asp-for="@Model.GetType().GetProperty($"CustomInt{i}Name")" class="form-control" placeholder="Field Name" />
+            <textarea asp-for="@Model.GetType().GetProperty($"CustomInt{i}Description")" class="form-control mt-1" placeholder="Description"></textarea>
+        </div>
+    }
+
+    <h5>Boolean Fields</h5>
+    @for (int i = 1; i <= 3; i++)
+    {
+        <div class="mb-3 form-check">
+            <input asp-for="@Model.GetType().GetProperty($"CustomBool{i}State")" class="form-check-input" />
+            <label asp-for="@Model.GetType().GetProperty($"CustomBool{i}State")" class="form-check-label">Enable Field @i</label>
+        </div>
+        <div class="mb-3">
+            <input asp-for="@Model.GetType().GetProperty($"CustomBool{i}Name")" class="form-control" placeholder="Field Name" />
+            <textarea asp-for="@Model.GetType().GetProperty($"CustomBool{i}Description")" class="form-control mt-1" placeholder="Description"></textarea>
+        </div>
+    }
+
+    <h5>Multi-line Text Fields</h5>
+    @for (int i = 1; i <= 3; i++)
+    {
+        <div class="mb-3 form-check">
+            <input asp-for="@Model.GetType().GetProperty($"CustomMultiline{i}State")" class="form-check-input" />
+            <label asp-for="@Model.GetType().GetProperty($"CustomMultiline{i}State")" class="form-check-label">Enable Field @i</label>
+        </div>
+        <div class="mb-3">
+            <input asp-for="@Model.GetType().GetProperty($"CustomMultiline{i}Name")" class="form-control" placeholder="Field Name" />
+            <textarea asp-for="@Model.GetType().GetProperty($"CustomMultiline{i}Description")" class="form-control mt-1" placeholder="Description"></textarea>
+        </div>
+    }
+
+    <h5>Document/Image Fields</h5>
+    @for (int i = 1; i <= 3; i++)
+    {
+        <div class="mb-3 form-check">
+            <input asp-for="@Model.GetType().GetProperty($"CustomLink{i}State")" class="form-check-input" />
+            <label asp-for="@Model.GetType().GetProperty($"CustomLink{i}State")" class="form-check-label">Enable Field @i</label>
+        </div>
+        <div class="mb-3">
+            <input asp-for="@Model.GetType().GetProperty($"CustomLink{i}Name")" class="form-control" placeholder="Field Name" />
+            <textarea asp-for="@Model.GetType().GetProperty($"CustomLink{i}Description")" class="form-control mt-1" placeholder="Description"></textarea>
+        </div>
+    }
+
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary next-tab" data-next="#access">Next</button>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model InventoryManagementApp.ViewModels.Inventory.InventoryCreateViewModel
+@inject InventoryManagementApp.Data.ApplicationDbContext _db
+
+<div class="tab-pane fade show active" id="settings" role="tabpanel">
+    <h3>Settings</h3>
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Title</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Category</label>
+        <select asp-for="CategoryId" class="form-select">
+            <option value="">-- Select Category --</option>
+            @foreach (var c in _db.Categories.OrderBy(c => c.Name))
+            {
+                <option value="@c.Id" selected="@(Model.CategoryId == c.Id ? "selected" : null)">
+                    @c.Name
+                </option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="IsPublic" class="form-check-input" />
+        <label asp-for="IsPublic" class="form-check-label">Public</label>
+    </div>
+
+    <button type="button" class="btn btn-primary next-tab">Next</button>
+</div>

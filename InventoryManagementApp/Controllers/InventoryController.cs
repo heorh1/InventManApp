@@ -49,16 +49,23 @@ namespace InventoryManagementApp.Controllers
             return View(inv);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View(new InventoryCreateViewModel());
+            var vm = new InventoryCreateViewModel();
+
+            ViewBag.Categories = await _db.Categories.ToListAsync();
+
+            return View(vm);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InventoryCreateViewModel vm)
         {
             if (!ModelState.IsValid)
+            {
+                ViewBag.Categories = await _db.Categories.ToListAsync();
                 return View(vm);
+            }
 
             var userId = _userManager.GetUserId(User);
 
@@ -74,11 +81,9 @@ namespace InventoryManagementApp.Controllers
                 CustomString1State = vm.CustomString1State,
                 CustomString1Name = vm.CustomString1Name,
                 CustomString1Description = vm.CustomString1Description,
-
                 CustomString2State = vm.CustomString2State,
                 CustomString2Name = vm.CustomString2Name,
                 CustomString2Description = vm.CustomString2Description,
-
                 CustomString3State = vm.CustomString3State,
                 CustomString3Name = vm.CustomString3Name,
                 CustomString3Description = vm.CustomString3Description,
@@ -87,11 +92,9 @@ namespace InventoryManagementApp.Controllers
                 CustomInt1State = vm.CustomInt1State,
                 CustomInt1Name = vm.CustomInt1Name,
                 CustomInt1Description = vm.CustomInt1Description,
-
                 CustomInt2State = vm.CustomInt2State,
                 CustomInt2Name = vm.CustomInt2Name,
                 CustomInt2Description = vm.CustomInt2Description,
-
                 CustomInt3State = vm.CustomInt3State,
                 CustomInt3Name = vm.CustomInt3Name,
                 CustomInt3Description = vm.CustomInt3Description,
@@ -100,11 +103,9 @@ namespace InventoryManagementApp.Controllers
                 CustomBool1State = vm.CustomBool1State,
                 CustomBool1Name = vm.CustomBool1Name,
                 CustomBool1Description = vm.CustomBool1Description,
-
                 CustomBool2State = vm.CustomBool2State,
                 CustomBool2Name = vm.CustomBool2Name,
                 CustomBool2Description = vm.CustomBool2Description,
-
                 CustomBool3State = vm.CustomBool3State,
                 CustomBool3Name = vm.CustomBool3Name,
                 CustomBool3Description = vm.CustomBool3Description,
@@ -113,24 +114,20 @@ namespace InventoryManagementApp.Controllers
                 CustomMultiline1State = vm.CustomMultiline1State,
                 CustomMultiline1Name = vm.CustomMultiline1Name,
                 CustomMultiline1Description = vm.CustomMultiline1Description,
-
                 CustomMultiline2State = vm.CustomMultiline2State,
                 CustomMultiline2Name = vm.CustomMultiline2Name,
                 CustomMultiline2Description = vm.CustomMultiline2Description,
-
                 CustomMultiline3State = vm.CustomMultiline3State,
                 CustomMultiline3Name = vm.CustomMultiline3Name,
                 CustomMultiline3Description = vm.CustomMultiline3Description,
 
-                // Document/Image fields
+                // Image/Link fields
                 CustomLink1State = vm.CustomLink1State,
                 CustomLink1Name = vm.CustomLink1Name,
                 CustomLink1Description = vm.CustomLink1Description,
-
                 CustomLink2State = vm.CustomLink2State,
                 CustomLink2Name = vm.CustomLink2Name,
                 CustomLink2Description = vm.CustomLink2Description,
-
                 CustomLink3State = vm.CustomLink3State,
                 CustomLink3Name = vm.CustomLink3Name,
                 CustomLink3Description = vm.CustomLink3Description
@@ -142,8 +139,11 @@ namespace InventoryManagementApp.Controllers
             ViewBag.SuccessMessage = "✅ Inventory created successfully";
             ModelState.Clear();
 
+            // Снова подгружаем категории для формы
+            ViewBag.Categories = await _db.Categories.ToListAsync();
             return View(new InventoryCreateViewModel());
         }
+
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -183,13 +183,23 @@ namespace InventoryManagementApp.Controllers
                 CustomBool3Name = inv.CustomBool3Name
             };
 
+            ViewBag.Categories = await _db.Categories
+                .Select(c => new { c.Id, c.Name })
+                .ToListAsync();
+
             return View(vm);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, InventoryEditViewModel vm)
         {
-            if (!ModelState.IsValid) return View(vm);
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Categories =await _db.Categories
+                    .Select(c => new { c.Id, c.Name })
+                    .ToListAsync();
+                return View(vm);
+            }
 
             var inv = await _db.Inventories.FindAsync(id);
             if (inv == null) return NotFound();
