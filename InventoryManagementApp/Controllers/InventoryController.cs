@@ -49,12 +49,16 @@ namespace InventoryManagementApp.Controllers
             return View(inv);
         }
 
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+            return View(new InventoryCreateViewModel());
+        }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InventoryCreateViewModel vm)
         {
-            if (!ModelState.IsValid) return View(vm);
+            if (!ModelState.IsValid)
+                return View(vm);
 
             var userId = _userManager.GetUserId(User);
 
@@ -135,7 +139,10 @@ namespace InventoryManagementApp.Controllers
             _db.Inventories.Add(entity);
             await _db.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            ViewBag.SuccessMessage = "✅ Inventory created successfully";
+            ModelState.Clear();
+
+            return View(new InventoryCreateViewModel());
         }
 
         public async Task<IActionResult> Edit(int id)
