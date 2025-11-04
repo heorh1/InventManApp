@@ -31,9 +31,9 @@ namespace InventoryManagementApp.Models
         public string? CustomMultiline2Value { get; set; }
         public string? CustomMultiline3Value { get; set; }
 
-        public string? CustomDocument1Value { get; set; }
-        public string? CustomDocument2Value { get; set; }
-        public string? CustomDocument3Value { get; set; }
+        public string? CustomLink1Value { get; set; }
+        public string? CustomLink2Value { get; set; }
+        public string? CustomLink3Value { get; set; }
 
         [Timestamp]
         public byte[]? RowVersion { get; set; }
