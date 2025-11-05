@@ -81,7 +81,7 @@ namespace InventoryManagementApp.Models
         public string? CustomMultiline2Name { get; set; }
         public string? CustomMultiline2Description { get; set; }
 
-        public bool CustomMultiline3State { get; set; }
+        public bool CustomMultiline3State { get; set; } = true;
         public string? CustomMultiline3Name { get; set; }
         public string? CustomMultiline3Description { get; set; }
 
