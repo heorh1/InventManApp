@@ -1,1 +1,100 @@
-﻿
+﻿@model InventoryManagementApp.Models.InventoryItem
+
+@{
+    ViewData["Title"] = "Item Details";
+}
+
+<h3>Item Details</h3>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Created By</dt>
+    <dd class="col-sm-9">@Model.CreatedBy?.UserName</dd>
+
+    <dt class="col-sm-3">Created At</dt>
+    <dd class="col-sm-9">@Model.CreatedAt.ToLocalTime().ToString("f")</dd>
+
+    <hr />
+
+    @if (!string.IsNullOrEmpty(Model.CustomString1Value))
+    {
+        <dt class="col-sm-3">String 1</dt>
+        <dd class="col-sm-9">@Model.CustomString1Value</dd>
+ }
+    @if (!string.IsNullOrEmpty(Model.CustomString2Value))
+    {
+        <dt class="col-sm-3">String 2</dt>
+        <dd class="col-sm-9">@Model.CustomString2Value</dd>
+ }
+    @if (!string.IsNullOrEmpty(Model.CustomString3Value))
+    {
+        <dt class="col-sm-3">String 3</dt>
+        <dd class="col-sm-9">@Model.CustomString3Value</dd>
+ }
+
+    @if (Model.CustomInt1Value.HasValue)
+    {
+        <dt class="col-sm-3">Int 1</dt>
+        <dd class="col-sm-9">@Model.CustomInt1Value</dd>
+ }
+    @if (Model.CustomInt2Value.HasValue)
+    {
+        <dt class="col-sm-3">Int 2</dt>
+        <dd class="col-sm-9">@Model.CustomInt2Value</dd>
+ }
+    @if (Model.CustomInt3Value.HasValue)
+    {
+        <dt class="col-sm-3">Int 3</dt>
+        <dd class="col-sm-9">@Model.CustomInt3Value</dd>
+ }
+
+    @if (Model.CustomBool1Value.HasValue)
+    {
+        <dt class="col-sm-3">Bool 1</dt>
+        <dd class="col-sm-9">@((Model.CustomBool1Value == true) ? "Yes" : "No")</dd>
+ }
+    @if (Model.CustomBool2Value.HasValue)
+    {
+        <dt class="col-sm-3">Bool 2</dt>
+        <dd class="col-sm-9">@((Model.CustomBool2Value == true) ? "Yes" : "No")</dd>
+ }
+    @if (Model.CustomBool3Value.HasValue)
+    {
+        <dt class="col-sm-3">Bool 3</dt>
+        <dd class="col-sm-9">@((Model.CustomBool3Value == true) ? "Yes" : "No")</dd>
+ }
+
+    @if (!string.IsNullOrEmpty(Model.CustomMultiline1Value))
+    {
+        <dt class="col-sm-3">Multiline 1</dt>
+        <dd class="col-sm-9"><pre>@Model.CustomMultiline1Value</pre></dd>
+ }
+    @if (!string.IsNullOrEmpty(Model.CustomMultiline2Value))
+    {
+        <dt class="col-sm-3">Multiline 2</dt>
+        <dd class="col-sm-9"><pre>@Model.CustomMultiline2Value</pre></dd>
+ }
+    @if (!string.IsNullOrEmpty(Model.CustomMultiline3Value))
+    {
+        <dt class="col-sm-3">Multiline 3</dt>
+        <dd class="col-sm-9"><pre>@Model.CustomMultiline3Value</pre></dd>
+ }
+
+    @if (!string.IsNullOrEmpty(Model.CustomLink1Value))
+    {
+        <dt class="col-sm-3">Link 1</dt>
+        <dd class="col-sm-9"><a href="@Model.CustomLink1Value" target="_blank">Open</a></dd>
+ }
+    @if (!string.IsNullOrEmpty(Model.CustomLink2Value))
+    {
+        <dt class="col-sm-3">Link 2</dt>
+        <dd class="col-sm-9"><a href="@Model.CustomLink2Value" target="_blank">Open</a></dd>
+ }
+    @if (!string.IsNullOrEmpty(Model.CustomLink3Value))
+    {
+        <dt class="col-sm-3">Link 3</dt>
+        <dd class="col-sm-9"><a href="@Model.CustomLink3Value" target="_blank">Open</a></dd>
+ }
+</dl>
+
+<a asp-controller="Inventories" asp-action="Edit" asp-route-id="@Model.InventoryId" class="btn btn-secondary mt-3">Back</a>

@@ -1,1 +1,179 @@
-﻿
+﻿@model IEnumerable<InventoryManagementApp.Models.InventoryItem>
+@{
+    var inventory = ViewData["Inventory"] as InventoryManagementApp.Models.Inventory;
+}
+
+@if (inventory == null)
+{
+    <div class="alert alert-warning">Inventory not found.</div>
+}
+else if (Model == null || !Model.Any())
+{
+    <div class="alert alert-secondary text-center">
+        No items yet. Add the first one using the “Add Item” button.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th><input type="checkbox" id="selectAll" /></th>
+
+                @if (inventory.CustomString1State)
+                {
+                    <th>@inventory.CustomString1Name</th>
+                }
+                @if (inventory.CustomString2State)
+                {
+                    <th>@inventory.CustomString2Name</th>
+                }
+                @if (inventory.CustomString3State)
+                {
+                    <th>@inventory.CustomString3Name</th>
+                }
+
+                @if (inventory.CustomInt1State)
+                {
+                    <th>@inventory.CustomInt1Name</th>
+                }
+                @if (inventory.CustomInt2State)
+                {
+                    <th>@inventory.CustomInt2Name</th>
+                }
+                @if (inventory.CustomInt3State)
+                {
+                    <th>@inventory.CustomInt3Name</th>
+                }
+
+                @if (inventory.CustomBool1State)
+                {
+                    <th>@inventory.CustomBool1Name</th>
+                }
+                @if (inventory.CustomBool2State)
+                {
+                    <th>@inventory.CustomBool2Name</th>
+                }
+                @if (inventory.CustomBool3State)
+                {
+                    <th>@inventory.CustomBool3Name</th>
+                }
+
+                @if (inventory.CustomMultiline1State)
+                {
+                    <th>@inventory.CustomMultiline1Name</th>
+                }
+                @if (inventory.CustomMultiline2State)
+                {
+                    <th>@inventory.CustomMultiline2Name</th>
+                }
+                @if (inventory.CustomMultiline3State)
+                {
+                    <th>@inventory.CustomMultiline3Name</th>
+                }
+
+                @if (inventory.CustomLink1State)
+                {
+                    <th>@inventory.CustomLink1Name</th>
+                }
+                @if (inventory.CustomLink2State)
+                {
+                    <th>@inventory.CustomLink2Name</th>
+                }
+                @if (inventory.CustomLink3State)
+                {
+                    <th>@inventory.CustomLink3Name</th>
+                }
+
+                <th>Created By</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="item-row" data-id="@item.Id" style="cursor:pointer;">
+                    <td><input type="checkbox" value="@item.Id" /></td>
+
+                    @if (inventory.CustomString1State)
+                    {
+                        <td>@item.CustomString1Value</td>
+                    }
+                    @if (inventory.CustomString2State)
+                    {
+                        <td>@item.CustomString2Value</td>
+                    }
+                    @if (inventory.CustomString3State)
+                    {
+                        <td>@item.CustomString3Value</td>
+                    }
+
+                    @if (inventory.CustomInt1State)
+                    {
+                        <td>@item.CustomInt1Value</td>
+                    }
+                    @if (inventory.CustomInt2State)
+                    {
+                        <td>@item.CustomInt2Value</td>
+                    }
+                    @if (inventory.CustomInt3State)
+                    {
+                        <td>@item.CustomInt3Value</td>
+                    }
+
+                    @if (inventory.CustomBool1State)
+                    {
+                        <td>@(item.CustomBool1Value == true ? "Yes" : "No")</td>
+                    }
+                    @if (inventory.CustomBool2State)
+                    {
+                        <td>@(item.CustomBool2Value == true ? "Yes" : "No")</td>
+                    }
+                    @if (inventory.CustomBool3State)
+                    {
+                        <td>@(item.CustomBool3Value == true ? "Yes" : "No")</td>
+                    }
+
+                    @if (inventory.CustomMultiline1State)
+                    {
+                        <td>@item.CustomMultiline1Value</td>
+                    }
+                    @if (inventory.CustomMultiline2State)
+                    {
+                        <td>@item.CustomMultiline2Value</td>
+                    }
+                    @if (inventory.CustomMultiline3State)
+                    {
+                        <td>@item.CustomMultiline3Value</td>
+                    }
+
+                    @if (inventory.CustomLink1State && !string.IsNullOrEmpty(item.CustomLink1Value))
+                    {
+                        <td><a href="@item.CustomLink1Value" target="_blank">Open</a></td>
+                    }
+                    @if (inventory.CustomLink2State && !string.IsNullOrEmpty(item.CustomLink2Value))
+                    {
+                        <td><a href="@item.CustomLink2Value" target="_blank">Open</a></td>
+                    }
+                    @if (inventory.CustomLink3State && !string.IsNullOrEmpty(item.CustomLink3Value))
+                    {
+                        <td><a href="@item.CustomLink3Value" target="_blank">Open</a></td>
+                    }
+
+                    <td>@item.CreatedBy?.UserName</td>
+                    <td>@item.CreatedAt.ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<script>
+    document.querySelectorAll(".item-row").forEach(row => {
+        row.addEventListener("click", e => {
+            if (!e.target.matches("input[type='checkbox']")) {
+                window.location.href = `/InventoryItems/Details/${row.dataset.id}`;
+            }
+        });
+    });
+</script>
