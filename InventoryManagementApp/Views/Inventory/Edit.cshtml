@@ -1,5 +1,104 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model InventoryManagementApp.ViewModels.Inventory.InventoryEditViewModel
+
 @{
+    ViewData["Title"] = "Edit Inventory";
+    var inventory = ViewData["Inventory"] as InventoryManagementApp.Models.Inventory;
+}
+
+<h2 class="mb-4">Edit Inventory</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Навигация вкладок -->
+    <ul class="nav nav-tabs" id="inventoryTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="settings-tab" data-bs-toggle="tab" href="#settings" role="tab">Settings</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="customid-tab" data-bs-toggle="tab" href="#customid" role="tab">Custom ID</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="fields-tab" data-bs-toggle="tab" href="#fields" role="tab">Fields</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="access-tab" data-bs-toggle="tab" href="#access" role="tab">Access</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="items-tab" data-bs-toggle="tab" href="#items" role="tab">Items</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="chat-tab" data-bs-toggle="tab" href="#chat" role="tab">Chat</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="stats-tab" data-bs-toggle="tab" href="#stats" role="tab">Stats</a>
+        </li>
+    </ul>
+
+    <!-- Контент вкладок -->
+    <div class="tab-content mt-3" id="inventoryTabsContent">
+        <div class="tab-pane fade show active" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+            @await Html.PartialAsync("CreateTabs/_Settings", Model)
+        </div>
+
+        <div class="tab-pane fade" id="customid" role="tabpanel" aria-labelledby="customid-tab">
+            @await Html.PartialAsync("CreateTabs/_CustomId", Model)
+        </div>
+
+        <div class="tab-pane fade" id="fields" role="tabpanel" aria-labelledby="fields-tab">
+            @await Html.PartialAsync("CreateTabs/_Fields", Model)
+        </div>
+
+        <div class="tab-pane fade" id="access" role="tabpanel" aria-labelledby="access-tab">
+            @await Html.PartialAsync("CreateTabs/_Access", Model)
+        </div>
+
+        <div class="tab-pane fade" id="items" role="tabpanel" aria-labelledby="items-tab">
+            @if (inventory != null)
+            {
+                @await Html.PartialAsync("CreateTabs/_Items", inventory)
+            }
+            else
+            {
+                <p class="text-muted">⚠️ Inventory not loaded. Try reloading the page.</p>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="chat" role="tabpanel" aria-labelledby="chat-tab">
+            @await Html.PartialAsync("CreateTabs/_Chat", Model)
+        </div>
+
+        <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+            @await Html.PartialAsync("CreateTabs/_Stats", Model)
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        // Сохраняем активную вкладку между перезагрузками
+        document.addEventListener("DOMContentLoaded", function () {
+            const activeTab = localStorage.getItem("activeEditTab");
+            if (activeTab) {
+                const trigger = document.querySelector(`#inventoryTabs a[href="${activeTab}"]`);
+                if (trigger) new bootstrap.Tab(trigger).show();
+            }
+
+            document.querySelectorAll('#inventoryTabs a[data-bs-toggle="tab"]').forEach(tab => {
+                tab.addEventListener('shown.bs.tab', e => {
+                    localStorage.setItem("activeEditTab", e.target.getAttribute("href"));
+                });
+            });
+        });
+    </script>
 }
