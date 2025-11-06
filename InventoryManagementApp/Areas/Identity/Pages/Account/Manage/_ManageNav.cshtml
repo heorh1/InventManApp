@@ -1,4 +1,4 @@
-@using InventoryManagementApp.Areas.Identity.Pages.Models
+@using InventoryManagementApp.Models
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
