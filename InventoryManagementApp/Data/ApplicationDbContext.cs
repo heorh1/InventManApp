@@ -1,6 +1,6 @@
-﻿using InventoryManagementApp.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using InventoryManagementApp.Models;
 
 namespace InventoryManagementApp.Data
 {
