@@ -44,10 +44,10 @@
     </div>
 </form>
 
-@if (ViewBag.SuccessMessage != null)
+@if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success mt-3">
-        @ViewBag.SuccessMessage
+        @TempData["SuccessMessage"]
     </div>
 }
 

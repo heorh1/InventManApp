@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<InventoryManagementApp.Models.Inventory>
+
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -16,16 +18,26 @@
                         <th>Title</th>
                         <th>Description</th>
                         <th>Creator</th>
-                        <th>Tags</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Inventory1</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var inv in Model)
+                        {
+                            <tr>
+                                <td>@inv.Title</td>
+                                <td>@inv.Description</td>
+                                <td>@(inv.Creator?.Id ?? "Unknown")</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">No inventories found.</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

@@ -20,7 +20,6 @@ namespace InventoryManagementApp.Controllers
             _userManager = userManager;
         }
 
-        // GET: /Inventory/Create
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -28,7 +27,6 @@ namespace InventoryManagementApp.Controllers
             return View(new InventoryCreateViewModel());
         }
 
-        // POST: /Inventory/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InventoryCreateViewModel model)
@@ -43,7 +41,6 @@ namespace InventoryManagementApp.Controllers
             if (user == null)
                 return Unauthorized();
 
-            // Создание нового инвентаря из всех вкладок
             var inventory = new Inventory
             {
                 Title = model.Title,
@@ -115,13 +112,13 @@ namespace InventoryManagementApp.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = $"Ошибка при создании: {ex.Message}";
+                TempData["ErrorMessage"] = $"Error while creating: {ex.Message}";
                 ViewBag.Categories = await _context.Categories.ToListAsync();
                 return View(model);
             }
 
             TempData["SuccessMessage"] = "Inventory created successfully!";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Create");
         }
     }
 }
