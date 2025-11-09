@@ -56,10 +56,10 @@
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var createdInventoryId = '@TempData["CreatedInventoryId"]';
-            if (createdInventoryId) {
-                var itemsTab = new bootstrap.Tab(document.querySelector("#items-tab"));
-                itemsTab.show();
+            var activeTab = '@ViewBag.ActiveTab';
+            if (activeTab) {
+                var tab = new bootstrap.Tab(document.querySelector(`#${activeTab}-tab`));
+                tab.show();
             }
         });
     </script>

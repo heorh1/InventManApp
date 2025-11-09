@@ -22,10 +22,53 @@ namespace InventoryManagementApp.Controllers
 
         // GET: Create Inventory
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? id, string? activeTab = null)
         {
             ViewBag.Categories = await _context.Categories.ToListAsync();
-            return View(new InventoryCreateViewModel());
+            InventoryCreateViewModel model;
+
+            if (id.HasValue)
+            {
+                var inventory = await _context.Inventories
+                    .Include(i => i.Items)
+                    .FirstOrDefaultAsync(i => i.Id == id.Value);
+
+                if (inventory == null) return NotFound();
+
+                model = new InventoryCreateViewModel
+                {
+                    InventoryId = inventory.Id,
+                    Title = inventory.Title,
+                    Description = inventory.Description,
+                    CategoryId = inventory.CategoryId,
+                    IsPublic = inventory.IsPublic,
+                    Items = inventory.Items.ToList(),
+
+                    CustomString1State = inventory.CustomString1State,
+                    CustomString2State = inventory.CustomString2State,
+                    CustomString3State = inventory.CustomString3State,
+                    CustomInt1State = inventory.CustomInt1State,
+                    CustomInt2State = inventory.CustomInt2State,
+                    CustomInt3State = inventory.CustomInt3State,
+                    CustomBool1State = inventory.CustomBool1State,
+                    CustomBool2State = inventory.CustomBool2State,
+                    CustomBool3State = inventory.CustomBool3State,
+                    CustomMultiline1State = inventory.CustomMultiline1State,
+                    CustomMultiline2State = inventory.CustomMultiline2State,
+                    CustomMultiline3State = inventory.CustomMultiline3State,
+                    CustomLink1State = inventory.CustomLink1State,
+                    CustomLink2State = inventory.CustomLink2State,
+                    CustomLink3State = inventory.CustomLink3State
+                };
+            }
+            else
+            {
+                model = new InventoryCreateViewModel();
+            }
+
+            ViewBag.ActiveTab = activeTab ?? "settings";
+
+            return View(model);
         }
 
         // POST: Create Inventory
@@ -129,7 +172,7 @@ namespace InventoryManagementApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddItem(InventoryCreateViewModel model)
         {
-            if (model.InventoryId == null || model.InventoryId == 0)
+            if (!model.InventoryId.HasValue)
             {
                 TempData["ErrorMessage"] = "Inventory ID is missing.";
                 return RedirectToAction("Create");
@@ -140,7 +183,7 @@ namespace InventoryManagementApp.Controllers
 
             var inventory = await _context.Inventories
                 .Include(i => i.Items)
-                .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
+                .FirstOrDefaultAsync(i => i.Id == model.InventoryId.Value);
 
             if (inventory == null)
             {
@@ -156,19 +199,15 @@ namespace InventoryManagementApp.Controllers
                 CustomString1Value = inventory.CustomString1State ? model.CustomString1Value : null,
                 CustomString2Value = inventory.CustomString2State ? model.CustomString2Value : null,
                 CustomString3Value = inventory.CustomString3State ? model.CustomString3Value : null,
-
                 CustomInt1Value = inventory.CustomInt1State ? model.CustomInt1Value : null,
                 CustomInt2Value = inventory.CustomInt2State ? model.CustomInt2Value : null,
                 CustomInt3Value = inventory.CustomInt3State ? model.CustomInt3Value : null,
-
                 CustomBool1Value = inventory.CustomBool1State ? model.CustomBool1Value : null,
                 CustomBool2Value = inventory.CustomBool2State ? model.CustomBool2Value : null,
                 CustomBool3Value = inventory.CustomBool3State ? model.CustomBool3Value : null,
-
                 CustomMultiline1Value = inventory.CustomMultiline1State ? model.CustomMultiline1Value : null,
                 CustomMultiline2Value = inventory.CustomMultiline2State ? model.CustomMultiline2Value : null,
                 CustomMultiline3Value = inventory.CustomMultiline3State ? model.CustomMultiline3Value : null,
-
                 CustomLink1Value = inventory.CustomLink1State ? model.CustomLink1Value : null,
                 CustomLink2Value = inventory.CustomLink2State ? model.CustomLink2Value : null,
                 CustomLink3Value = inventory.CustomLink3State ? model.CustomLink3Value : null
@@ -178,9 +217,8 @@ namespace InventoryManagementApp.Controllers
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Item added successfully!";
-            TempData["CreatedInventoryId"] = inventory.Id;
 
-            return RedirectToAction("Create");
+            return RedirectToAction("Create", new { id = inventory.Id, activeTab = "items" });
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel
 
-<div id="itemsTab">
+<div id="items">
     <h3>Items</h3>
 
-    @if (TempData["CreatedInventoryId"] != null)
+    @if (Model.InventoryId.HasValue)
     {
         <form asp-action="AddItem" method="post">
-            <input type="hidden" name="InventoryId" value="@TempData["CreatedInventoryId"]" />
+            <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
 
             <table class="table">
                 <thead>
