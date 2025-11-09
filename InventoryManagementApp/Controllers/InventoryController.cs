@@ -164,7 +164,7 @@ namespace InventoryManagementApp.Controllers
             TempData["SuccessMessage"] = "Inventory created successfully!";
             TempData["CreatedInventoryId"] = inventory.Id;
 
-            return RedirectToAction("Create");
+            return RedirectToAction("Create", new { id = inventory.Id, activeTab = "items" });
         }
 
         // POST: Add Item to Inventory

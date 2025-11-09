@@ -6,6 +6,7 @@
     @if (Model.InventoryId.HasValue)
     {
         <form asp-action="AddItem" method="post">
+            @Html.AntiForgeryToken()
             <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
 
             <table class="table">
