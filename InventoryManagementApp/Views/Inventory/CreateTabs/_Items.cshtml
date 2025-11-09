@@ -1,60 +1,178 @@
-﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryItemsViewModel
+﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel
 
-<div class="tab-pane fade show" id="items" role="tabpanel">
-    <h4>Items for: @Model.InventoryTitle</h4>
+@{
+    ViewData["Title"] = "Create Inventory";
+}
 
-    <form asp-action="Add" asp-controller="InventoryItems" method="post">
-        <input type="hidden" asp-for="InventoryId" />
+<h2>Create Inventory</h2>
 
-        <div class="row g-3 align-items-center mb-3">
-            <div class="col-md-4">
-                <label class="form-label">Computer</label>
-                <input asp-for="CustomString1Value" class="form-control" placeholder="Enter text value" />
-            </div>
+<!-- Сообщения об успехе/ошибке -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
 
-            <div class="col-md-4">
-                <label class="form-label">Age</label>
-                <input asp-for="CustomInt1Value" class="form-control" placeholder="Enter numeric value" />
-            </div>
+<!-- Остальной HTML для Settings/Fields/Access вкладок здесь -->
+<!-- Вкладка Items -->
+<div id="itemsTab">
+    <h3>Items</h3>
 
-            <div class="col-md-4 mt-3">
-                <button type="submit" class="btn btn-success mt-4">Add Item</button>
-            </div>
-        </div>
-    </form>
-
-    @if (TempData["SuccessMessage"] != null)
+    @if (TempData["CreatedInventoryId"] != null)
     {
-        <div class="alert alert-success mt-3">@TempData["SuccessMessage"]</div>
-    }
+        @* Сохраняем InventoryId в скрытом поле *@
+        <form asp-action="AddItem" method="post">
+            <input type="hidden" name="InventoryId" value="@TempData["CreatedInventoryId"]" />
 
-    <hr />
-
-    <h5>Existing Items</h5>
-    @if (Model.Items.Any())
-    {
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Computer</th>
-                    <th>Age</th>
-                    <th>Created At</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>@item.CustomString1Value</td>
-                        <td>@item.CustomInt1Value</td>
-                        <td>@item.CreatedAt.ToLocalTime().ToString("g")</td>
+                        @* Динамически показываем только включенные поля *@
+                        @if (Model.CustomString1State)
+                        {
+                            <th>@Model.CustomString1Name</th>
+                        }
+                        @if (Model.CustomString2State)
+                        {
+                            <th>@Model.CustomString2Name</th>
+                        }
+                        @if (Model.CustomString3State)
+                        {
+                            <th>@Model.CustomString3Name</th>
+                        }
+
+                        @if (Model.CustomInt1State)
+                        {
+                            <th>@Model.CustomInt1Name</th>
+                        }
+                        @if (Model.CustomInt2State)
+                        {
+                            <th>@Model.CustomInt2Name</th>
+                        }
+                        @if (Model.CustomInt3State)
+                        {
+                            <th>@Model.CustomInt3Name</th>
+                        }
+
+                        @if (Model.CustomBool1State)
+                        {
+                            <th>@Model.CustomBool1Name</th>
+                        }
+                        @if (Model.CustomBool2State)
+                        {
+                            <th>@Model.CustomBool2Name</th>
+                        }
+                        @if (Model.CustomBool3State)
+                        {
+                            <th>@Model.CustomBool3Name</th>
+                        }
+
+                        @if (Model.CustomMultiline1State)
+                        {
+                            <th>@Model.CustomMultiline1Name</th>
+                        }
+                        @if (Model.CustomMultiline2State)
+                        {
+                            <th>@Model.CustomMultiline2Name</th>
+                        }
+                        @if (Model.CustomMultiline3State)
+                        {
+                            <th>@Model.CustomMultiline3Name</th>
+                        }
+
+                        @if (Model.CustomLink1State)
+                        {
+                            <th>@Model.CustomLink1Name</th>
+                        }
+                        @if (Model.CustomLink2State)
+                        {
+                            <th>@Model.CustomLink2Name</th>
+                        }
+                        @if (Model.CustomLink3State)
+                        {
+                            <th>@Model.CustomLink3Name</th>
+                        }
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tr>
+                        @* Поля ввода для добавления нового элемента *@
+                        @if (Model.CustomString1State)
+                        {
+                            <td><input type="text" name="CustomString1Value" class="form-control" /></td>
+                        }
+                        @if (Model.CustomString2State)
+                        {
+                            <td><input type="text" name="CustomString2Value" class="form-control" /></td>
+                        }
+                        @if (Model.CustomString3State)
+                        {
+                            <td><input type="text" name="CustomString3Value" class="form-control" /></td>
+                        }
+
+                        @if (Model.CustomInt1State)
+                        {
+                            <td><input type="number" name="CustomInt1Value" class="form-control" /></td>
+                        }
+                        @if (Model.CustomInt2State)
+                        {
+                            <td><input type="number" name="CustomInt2Value" class="form-control" /></td>
+                        }
+                        @if (Model.CustomInt3State)
+                        {
+                            <td><input type="number" name="CustomInt3Value" class="form-control" /></td>
+                        }
+
+                        @if (Model.CustomBool1State)
+                        {
+                            <td><input type="checkbox" name="CustomBool1Value" /></td>
+                        }
+                        @if (Model.CustomBool2State)
+                        {
+                            <td><input type="checkbox" name="CustomBool2Value" /></td>
+                        }
+                        @if (Model.CustomBool3State)
+                        {
+                            <td><input type="checkbox" name="CustomBool3Value" /></td>
+                        }
+
+                        @if (Model.CustomMultiline1State)
+                        {
+                            <td><textarea name="CustomMultiline1Value" class="form-control"></textarea></td>
+                        }
+                        @if (Model.CustomMultiline2State)
+                        {
+                            <td><textarea name="CustomMultiline2Value" class="form-control"></textarea></td>
+                        }
+                        @if (Model.CustomMultiline3State)
+                        {
+                            <td><textarea name="CustomMultiline3Value" class="form-control"></textarea></td>
+                        }
+
+                        @if (Model.CustomLink1State)
+                        {
+                            <td><input type="text" name="CustomLink1Value" class="form-control" /></td>
+                        }
+                        @if (Model.CustomLink2State)
+                        {
+                            <td><input type="text" name="CustomLink2Value" class="form-control" /></td>
+                        }
+                        @if (Model.CustomLink3State)
+                        {
+                            <td><input type="text" name="CustomLink3Value" class="form-control" /></td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+
+            <button type="submit" class="btn btn-primary">Add Item</button>
+        </form>
     }
     else
     {
-        <p>No items yet.</p>
+        <p>Please save the inventory first before adding items.</p>
     }
 </div>

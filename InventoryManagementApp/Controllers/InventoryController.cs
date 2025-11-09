@@ -122,5 +122,63 @@ namespace InventoryManagementApp.Controllers
 
             return RedirectToAction("Create");
         }
+
+        // Новый метод для добавления элементов в Inventory
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddItem(InventoryCreateViewModel model)
+        {
+            if (model.InventoryId == null || model.InventoryId == 0)
+            {
+                TempData["ErrorMessage"] = "Cannot add item: Inventory ID is missing.";
+                return RedirectToAction("Create");
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Unauthorized();
+
+            var inventory = await _context.Inventories
+                .Include(i => i.Items)
+                .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
+
+            if (inventory == null)
+            {
+                TempData["ErrorMessage"] = "Inventory not found.";
+                return RedirectToAction("Create");
+            }
+
+            var newItem = new InventoryItem
+            {
+                InventoryId = inventory.Id,
+                CreatedById = user.Id,
+
+                CustomString1Value = inventory.CustomString1State ? model.CustomString1Value : null,
+                CustomString2Value = inventory.CustomString2State ? model.CustomString2Value : null,
+                CustomString3Value = inventory.CustomString3State ? model.CustomString3Value : null,
+
+                CustomInt1Value = inventory.CustomInt1State ? model.CustomInt1Value : null,
+                CustomInt2Value = inventory.CustomInt2State ? model.CustomInt2Value : null,
+                CustomInt3Value = inventory.CustomInt3State ? model.CustomInt3Value : null,
+
+                CustomBool1Value = inventory.CustomBool1State ? model.CustomBool1Value : null,
+                CustomBool2Value = inventory.CustomBool2State ? model.CustomBool2Value : null,
+                CustomBool3Value = inventory.CustomBool3State ? model.CustomBool3Value : null,
+
+                CustomMultiline1Value = inventory.CustomMultiline1State ? model.CustomMultiline1Value : null,
+                CustomMultiline2Value = inventory.CustomMultiline2State ? model.CustomMultiline2Value : null,
+                CustomMultiline3Value = inventory.CustomMultiline3State ? model.CustomMultiline3Value : null,
+
+                CustomLink1Value = inventory.CustomLink1State ? model.CustomLink1Value : null,
+                CustomLink2Value = inventory.CustomLink2State ? model.CustomLink2Value : null,
+                CustomLink3Value = inventory.CustomLink3State ? model.CustomLink3Value : null
+            };
+
+            _context.InventoryItems.Add(newItem);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Item added successfully!";
+            return RedirectToAction("Create", new { id = inventory.Id });
+        }
     }
 }
