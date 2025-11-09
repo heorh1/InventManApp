@@ -1,5 +1,60 @@
-﻿@model InventoryManagementApp.ViewModels.Inventory.InventoryCreateViewModel
+﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryItemsViewModel
 
-<div class="tab-pane fade" id="items" role="tabpanel">
-    <p>Chat in progress...</p>
+<div class="tab-pane fade show" id="items" role="tabpanel">
+    <h4>Items for: @Model.InventoryTitle</h4>
+
+    <form asp-action="Add" asp-controller="InventoryItems" method="post">
+        <input type="hidden" asp-for="InventoryId" />
+
+        <div class="row g-3 align-items-center mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Computer</label>
+                <input asp-for="CustomString1Value" class="form-control" placeholder="Enter text value" />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Age</label>
+                <input asp-for="CustomInt1Value" class="form-control" placeholder="Enter numeric value" />
+            </div>
+
+            <div class="col-md-4 mt-3">
+                <button type="submit" class="btn btn-success mt-4">Add Item</button>
+            </div>
+        </div>
+    </form>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success mt-3">@TempData["SuccessMessage"]</div>
+    }
+
+    <hr />
+
+    <h5>Existing Items</h5>
+    @if (Model.Items.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Computer</th>
+                    <th>Age</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.CustomString1Value</td>
+                        <td>@item.CustomInt1Value</td>
+                        <td>@item.CreatedAt.ToLocalTime().ToString("g")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No items yet.</p>
+    }
 </div>

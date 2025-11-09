@@ -1,6 +1,6 @@
 ﻿using InventoryManagementApp.Data;
 using InventoryManagementApp.Models;
-using InventoryManagementApp.ViewModels.Inventory;
+using InventoryManagementApp.ViewModels.InventoryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -118,6 +118,8 @@ namespace InventoryManagementApp.Controllers
             }
 
             TempData["SuccessMessage"] = "Inventory created successfully!";
+            TempData["CreatedInventoryId"] = inventory.Id;
+
             return RedirectToAction("Create");
         }
     }
