@@ -20,6 +20,7 @@ namespace InventoryManagementApp.Controllers
             _userManager = userManager;
         }
 
+        // GET: Create Inventory
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -27,6 +28,7 @@ namespace InventoryManagementApp.Controllers
             return View(new InventoryCreateViewModel());
         }
 
+        // POST: Create Inventory
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InventoryCreateViewModel model)
@@ -38,8 +40,7 @@ namespace InventoryManagementApp.Controllers
             }
 
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return Unauthorized();
+            if (user == null) return Unauthorized();
 
             var inventory = new Inventory
             {
@@ -49,7 +50,7 @@ namespace InventoryManagementApp.Controllers
                 IsPublic = model.IsPublic,
                 Creator = user,
 
-                // Single-line text fields
+                // Single-line fields
                 CustomString1State = model.CustomString1State,
                 CustomString1Name = model.CustomString1Name,
                 CustomString1Description = model.CustomString1Description,
@@ -93,7 +94,7 @@ namespace InventoryManagementApp.Controllers
                 CustomMultiline3Name = model.CustomMultiline3Name,
                 CustomMultiline3Description = model.CustomMultiline3Description,
 
-                // Links (Document/Image)
+                // Links
                 CustomLink1State = model.CustomLink1State,
                 CustomLink1Name = model.CustomLink1Name,
                 CustomLink1Description = model.CustomLink1Description,
@@ -123,20 +124,19 @@ namespace InventoryManagementApp.Controllers
             return RedirectToAction("Create");
         }
 
-        // Новый метод для добавления элементов в Inventory
+        // POST: Add Item to Inventory
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddItem(InventoryCreateViewModel model)
         {
             if (model.InventoryId == null || model.InventoryId == 0)
             {
-                TempData["ErrorMessage"] = "Cannot add item: Inventory ID is missing.";
+                TempData["ErrorMessage"] = "Inventory ID is missing.";
                 return RedirectToAction("Create");
             }
 
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return Unauthorized();
+            if (user == null) return Unauthorized();
 
             var inventory = await _context.Inventories
                 .Include(i => i.Items)
@@ -178,7 +178,9 @@ namespace InventoryManagementApp.Controllers
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Item added successfully!";
-            return RedirectToAction("Create", new { id = inventory.Id });
+            TempData["CreatedInventoryId"] = inventory.Id;
+
+            return RedirectToAction("Create");
         }
     }
 }

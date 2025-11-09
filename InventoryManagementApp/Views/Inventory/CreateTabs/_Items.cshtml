@@ -1,36 +1,16 @@
 ﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel
 
-@{
-    ViewData["Title"] = "Create Inventory";
-}
-
-<h2>Create Inventory</h2>
-
-<!-- Сообщения об успехе/ошибке -->
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-}
-
-<!-- Остальной HTML для Settings/Fields/Access вкладок здесь -->
-<!-- Вкладка Items -->
 <div id="itemsTab">
     <h3>Items</h3>
 
     @if (TempData["CreatedInventoryId"] != null)
     {
-        @* Сохраняем InventoryId в скрытом поле *@
         <form asp-action="AddItem" method="post">
             <input type="hidden" name="InventoryId" value="@TempData["CreatedInventoryId"]" />
 
             <table class="table">
                 <thead>
                     <tr>
-                        @* Динамически показываем только включенные поля *@
                         @if (Model.CustomString1State)
                         {
                             <th>@Model.CustomString1Name</th>
@@ -99,7 +79,6 @@
                 </thead>
                 <tbody>
                     <tr>
-                        @* Поля ввода для добавления нового элемента *@
                         @if (Model.CustomString1State)
                         {
                             <td><input type="text" name="CustomString1Value" class="form-control" /></td>
@@ -173,6 +152,6 @@
     }
     else
     {
-        <p>Please save the inventory first before adding items.</p>
+        <p>Please save the inventory first to add items.</p>
     }
 </div>

@@ -6,6 +6,15 @@
 
 <h2>Create Inventory</h2>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 <form asp-action="Create" method="post">
     <div class="tab-container">
         <ul class="nav nav-tabs" id="inventoryTabs" role="tablist">
@@ -44,24 +53,14 @@
     </div>
 </form>
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success mt-3">
-        @TempData["SuccessMessage"]
-    </div>
-}
-
 @section Scripts {
     <script>
-        document.querySelectorAll(".next-tab").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const currentTab = document.querySelector(".tab-pane.active");
-                const nextId = btn.getAttribute("data-next");
-                const nextTab = document.querySelector(nextId);
-                if (currentTab && nextTab) {
-                    new bootstrap.Tab(document.querySelector(`[data-bs-target='${nextId}']`)).show();
-                }
-            });
+        document.addEventListener("DOMContentLoaded", function () {
+            var createdInventoryId = '@TempData["CreatedInventoryId"]';
+            if (createdInventoryId) {
+                var itemsTab = new bootstrap.Tab(document.querySelector("#items-tab"));
+                itemsTab.show();
+            }
         });
     </script>
 }
