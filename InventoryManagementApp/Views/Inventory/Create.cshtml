@@ -15,7 +15,6 @@
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 
-<!-- 🔸 Форма создания инвентаря -->
 <form asp-action="Create" method="post">
     @Html.AntiForgeryToken()
 
@@ -39,11 +38,27 @@
     </div>
 </form>
 
-<!-- 🔹 Отдельная форма для вкладки Items -->
 <div class="tab-pane fade @((ViewBag.ActiveTab == "items") ? "show active" : "")" id="items" role="tabpanel">
-    @await Html.PartialAsync("CreateTabs/_Items", Model)
+    @await Html.PartialAsync("CreateTabs/_Items", new InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
+    {
+        InventoryId = Model.InventoryId ?? 0,
+        CustomString1Name = Model.CustomString1Name,
+        CustomString2Name = Model.CustomString2Name,
+        CustomString3Name = Model.CustomString3Name,
+        CustomInt1Name = Model.CustomInt1Name,
+        CustomInt2Name = Model.CustomInt2Name,
+        CustomInt3Name = Model.CustomInt3Name,
+        CustomBool1Name = Model.CustomBool1Name,
+        CustomBool2Name = Model.CustomBool2Name,
+        CustomBool3Name = Model.CustomBool3Name,
+        CustomMultiline1Name = Model.CustomMultiline1Name,
+        CustomMultiline2Name = Model.CustomMultiline2Name,
+        CustomMultiline3Name = Model.CustomMultiline3Name,
+        CustomLink1Name = Model.CustomLink1Name,
+        CustomLink2Name = Model.CustomLink2Name,
+        CustomLink3Name = Model.CustomLink3Name
+        })
 </div>
-
 
 @section Scripts {
     <script>
