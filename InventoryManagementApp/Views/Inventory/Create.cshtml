@@ -57,7 +57,11 @@
         CustomLink1Name = Model.CustomLink1Name,
         CustomLink2Name = Model.CustomLink2Name,
         CustomLink3Name = Model.CustomLink3Name
-        })
+        }, new ViewDataDictionary(ViewData)
+    {
+        ["Items"] = Model.Items
+    })
+
 </div>
 
 @section Scripts {

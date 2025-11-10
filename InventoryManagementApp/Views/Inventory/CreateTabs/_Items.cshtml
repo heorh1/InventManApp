@@ -1,188 +1,173 @@
 ﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
 
-<h3>Items</h3>
+@{
+    // Получаем список существующих айтемов из ViewData
+    var items = ViewData["Items"] as List<InventoryManagementApp.Models.InventoryItem> ?? new List<InventoryManagementApp.Models.InventoryItem>();
+}
 
-<!-- Кнопка для показа/скрытия формы -->
-<button id="showAddItemFormBtn" class="btn btn-success mb-3">Add Item</button>
+<h3>Add Item</h3>
 
-<!-- Форма добавления айтема (по умолчанию скрыта) -->
-<div id="addItemFormContainer" style="display:none;">
-    <form id="addItemForm" asp-action="AddItem" method="post">
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
+<form id="addItemForm" asp-action="AddItem" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
 
-        <div class="row">
-            @* Single-line text fields *@
-            @if (!string.IsNullOrEmpty(Model.CustomString1Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@Model.CustomString1Name</label>
-                    <input name="CustomString1Value" class="form-control" value="@Model.CustomString1Value" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomString2Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@Model.CustomString2Name</label>
-                    <input name="CustomString2Value" class="form-control" value="@Model.CustomString2Value" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomString3Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@Model.CustomString3Name</label>
-                    <input name="CustomString3Value" class="form-control" value="@Model.CustomString3Value" />
-                </div>
-            }
-        </div>
+    <div class="row">
+        <!-- Single-line text fields -->
+        @if (!string.IsNullOrEmpty(Model.CustomString1Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomString1Name</label>
+                <input name="CustomString1Value" class="form-control" value="@Model.CustomString1Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomString2Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomString2Name</label>
+                <input name="CustomString2Value" class="form-control" value="@Model.CustomString2Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomString3Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomString3Name</label>
+                <input name="CustomString3Value" class="form-control" value="@Model.CustomString3Value" />
+            </div>
+        }
+    </div>
 
-        <div class="row">
-            @* Numeric fields *@
-            @if (!string.IsNullOrEmpty(Model.CustomInt1Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@Model.CustomInt1Name</label>
-                    <input name="CustomInt1Value" type="number" class="form-control" value="@Model.CustomInt1Value" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomInt2Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@Model.CustomInt2Name</label>
-                    <input name="CustomInt2Value" type="number" class="form-control" value="@Model.CustomInt2Value" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomInt3Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@Model.CustomInt3Name</label>
-                    <input name="CustomInt3Value" type="number" class="form-control" value="@Model.CustomInt3Value" />
-                </div>
-            }
-        </div>
+    <div class="row">
+        <!-- Numeric fields -->
+        @if (!string.IsNullOrEmpty(Model.CustomInt1Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomInt1Name</label>
+                <input name="CustomInt1Value" type="number" class="form-control" value="@Model.CustomInt1Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomInt2Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomInt2Name</label>
+                <input name="CustomInt2Value" type="number" class="form-control" value="@Model.CustomInt2Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomInt3Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomInt3Name</label>
+                <input name="CustomInt3Value" type="number" class="form-control" value="@Model.CustomInt3Value" />
+            </div>
+        }
+    </div>
 
-        <div class="row">
-            @* Boolean fields *@
-            @if (!string.IsNullOrEmpty(Model.CustomBool1Name))
-            {
-                <div class="col-md-4 mb-3 form-check">
-                    <input name="CustomBool1Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool1Value == true ? "checked" : "") />
-                    <label class="form-check-label">@Model.CustomBool1Name</label>
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomBool2Name))
-            {
-                <div class="col-md-4 mb-3 form-check">
-                    <input name="CustomBool2Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool2Value == true ? "checked" : "") />
-                    <label class="form-check-label">@Model.CustomBool2Name</label>
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomBool3Name))
-            {
-                <div class="col-md-4 mb-3 form-check">
-                    <input name="CustomBool3Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool3Value == true ? "checked" : "") />
-                    <label class="form-check-label">@Model.CustomBool3Name</label>
-                </div>
-            }
-        </div>
+    <div class="row">
+        <!-- Boolean fields -->
+        @if (!string.IsNullOrEmpty(Model.CustomBool1Name))
+        {
+            <div class="col-md-4 mb-3 form-check">
+                <input name="CustomBool1Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool1Value == true ? "checked" : "") />
+                <label class="form-check-label">@Model.CustomBool1Name</label>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomBool2Name))
+        {
+            <div class="col-md-4 mb-3 form-check">
+                <input name="CustomBool2Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool2Value == true ? "checked" : "") />
+                <label class="form-check-label">@Model.CustomBool2Name</label>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomBool3Name))
+        {
+            <div class="col-md-4 mb-3 form-check">
+                <input name="CustomBool3Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool3Value == true ? "checked" : "") />
+                <label class="form-check-label">@Model.CustomBool3Name</label>
+            </div>
+        }
+    </div>
 
-        <div class="row">
-            @* Multiline fields *@
-            @if (!string.IsNullOrEmpty(Model.CustomMultiline1Name))
-            {
-                <div class="col-md-6 mb-3">
-                    <label>@Model.CustomMultiline1Name</label>
-                    <textarea name="CustomMultiline1Value" class="form-control">@Model.CustomMultiline1Value</textarea>
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomMultiline2Name))
-            {
-                <div class="col-md-6 mb-3">
-                    <label>@Model.CustomMultiline2Name</label>
-                    <textarea name="CustomMultiline2Value" class="form-control">@Model.CustomMultiline2Value</textarea>
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomMultiline3Name))
-            {
-                <div class="col-md-6 mb-3">
-                    <label>@Model.CustomMultiline3Name</label>
-                    <textarea name="CustomMultiline3Value" class="form-control">@Model.CustomMultiline3Value</textarea>
-                </div>
-            }
-        </div>
+    <div class="row">
+        <!-- Multiline fields -->
+        @if (!string.IsNullOrEmpty(Model.CustomMultiline1Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomMultiline1Name</label>
+                <textarea name="CustomMultiline1Value" class="form-control">@Model.CustomMultiline1Value</textarea>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomMultiline2Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomMultiline2Name</label>
+                <textarea name="CustomMultiline2Value" class="form-control">@Model.CustomMultiline2Value</textarea>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomMultiline3Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomMultiline3Name</label>
+                <textarea name="CustomMultiline3Value" class="form-control">@Model.CustomMultiline3Value</textarea>
+            </div>
+        }
+    </div>
 
-        <div class="row">
-            @* Link fields *@
-            @if (!string.IsNullOrEmpty(Model.CustomLink1Name))
-            {
-                <div class="col-md-6 mb-3">
-                    <label>@Model.CustomLink1Name</label>
-                    <input name="CustomLink1Value" type="url" class="form-control" value="@Model.CustomLink1Value" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomLink2Name))
-            {
-                <div class="col-md-6 mb-3">
-                    <label>@Model.CustomLink2Name</label>
-                    <input name="CustomLink2Value" type="url" class="form-control" value="@Model.CustomLink2Value" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.CustomLink3Name))
-            {
-                <div class="col-md-6 mb-3">
-                    <label>@Model.CustomLink3Name</label>
-                    <input name="CustomLink3Value" type="url" class="form-control" value="@Model.CustomLink3Value" />
-                </div>
-            }
-        </div>
+    <div class="row">
+        <!-- Link fields -->
+        @if (!string.IsNullOrEmpty(Model.CustomLink1Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomLink1Name</label>
+                <input name="CustomLink1Value" type="url" class="form-control" value="@Model.CustomLink1Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomLink2Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomLink2Name</label>
+                <input name="CustomLink2Value" type="url" class="form-control" value="@Model.CustomLink2Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomLink3Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomLink3Name</label>
+                <input name="CustomLink3Value" type="url" class="form-control" value="@Model.CustomLink3Value" />
+            </div>
+        }
+    </div>
 
-        <button type="submit" class="btn btn-success mt-3">Add Item</button>
-    </form>
-</div>
+    <button type="submit" class="btn btn-success mt-3" id="addItemButton">Add Item</button>
+</form>
 
-<!-- Контейнер для списка айтемов -->
+<hr />
+
+<h4>Existing Items</h4>
 <div id="itemListContainer">
-    @* Здесь можно рендерить уже добавленные айтемы, если нужно *@
+    @await Html.PartialAsync("_ItemListPartial", items)
 </div>
 
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const showBtn = document.getElementById("showAddItemFormBtn");
-            const formContainer = document.getElementById("addItemFormContainer");
             const form = document.getElementById("addItemForm");
-            const itemList = document.getElementById("itemListContainer");
-
-            // Показ/скрытие формы
-            showBtn.addEventListener("click", function () {
-                if (formContainer.style.display === "none") {
-                    formContainer.style.display = "block";
-                } else {
-                    formContainer.style.display = "none";
-                }
-            });
-
-            // AJAX сабмит формы
             form.addEventListener("submit", function (e) {
                 e.preventDefault();
 
                 const formData = new FormData(form);
-                const token = formData.get("__RequestVerificationToken");
 
                 fetch(form.action, {
                     method: "POST",
+                    body: formData,
                     headers: {
-                        "RequestVerificationToken": token
-                    },
-                    body: formData
+                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
                 })
                 .then(response => response.text())
                 .then(html => {
                     // Обновляем список айтемов
-                    itemList.innerHTML = html;
+                    document.getElementById("itemListContainer").innerHTML = html;
 
-                    // Скрываем форму и очищаем поля
-                    formContainer.style.display = "none";
+                    // Очищаем форму после добавления
                     form.reset();
                 })
                 .catch(err => console.error(err));

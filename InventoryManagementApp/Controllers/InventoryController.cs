@@ -167,27 +167,19 @@ namespace InventoryManagementApp.Controllers
             return RedirectToAction("Create", new { id = inventory.Id, activeTab = "items" });
         }
 
-        // POST: Add Item to Inventory
+        // POST: Add Item to Inventory (AJAX)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddItem(AddItemViewModel model)
         {
             if (!ModelState.IsValid)
-            {
-                TempData["ErrorMessage"] = "Invalid item data.";
-                return RedirectToAction("Create", new { id = model.InventoryId, activeTab = "items" });
-            }
-
-            
+                return BadRequest("Invalid item data.");
 
             var inventory = await _context.Inventories
                 .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
 
             if (inventory == null)
-            {
-                TempData["ErrorMessage"] = "Inventory not found.";
-                return RedirectToAction("Create");
-            }
+                return NotFound();
 
             var item = new InventoryItem
             {
@@ -212,8 +204,13 @@ namespace InventoryManagementApp.Controllers
             _context.InventoryItems.Add(item);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Item added successfully!";
-            return RedirectToAction("Create", new { id = model.InventoryId, activeTab = "items" });
+            // Загружаем актуальный список айтемов для этого инвентаря
+            var items = await _context.InventoryItems
+                .Where(i => i.InventoryId == model.InventoryId)
+                .ToListAsync();
+
+            // Возвращаем частичный HTML
+            return PartialView("_ItemListPartial", items);
         }
     }
 }

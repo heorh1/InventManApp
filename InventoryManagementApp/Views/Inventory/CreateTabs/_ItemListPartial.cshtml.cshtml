@@ -1,0 +1,90 @@
+﻿@model List<InventoryManagementApp.Models.InventoryItem>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No items added yet.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                @* Single-line text fields *@
+                @for (int i = 1; i <= 3; i++)
+                {
+                    <th>String @i</th>
+                }
+                @* Numeric fields *@
+                @for (int i = 1; i <= 3; i++)
+                {
+                    <th>Int @i</th>
+                }
+                @* Boolean fields *@
+                @for (int i = 1; i <= 3; i++)
+                {
+                    <th>Bool @i</th>
+                }
+                @* Multiline fields *@
+                @for (int i = 1; i <= 3; i++)
+                {
+                    <th>Multiline @i</th>
+                }
+                @* Link fields *@
+                @for (int i = 1; i <= 3; i++)
+                {
+                    <th>Link @i</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (int idx = 0; idx < Model.Count; idx++)
+            {
+                var item = Model[idx];
+                <tr>
+                    <td>@(idx + 1)</td>
+
+                    @* Single-line text fields *@
+                    <td>@item.CustomString1Value</td>
+                    <td>@item.CustomString2Value</td>
+                    <td>@item.CustomString3Value</td>
+
+                    @* Numeric fields *@
+                    <td>@item.CustomInt1Value</td>
+                    <td>@item.CustomInt2Value</td>
+                    <td>@item.CustomInt3Value</td>
+
+                    @* Boolean fields *@
+                    <td>@(item.CustomBool1Value == true ? "Yes" : "No")</td>
+                    <td>@(item.CustomBool2Value == true ? "Yes" : "No")</td>
+                    <td>@(item.CustomBool3Value == true ? "Yes" : "No")</td>
+
+                    @* Multiline fields *@
+                    <td>@item.CustomMultiline1Value</td>
+                    <td>@item.CustomMultiline2Value</td>
+                    <td>@item.CustomMultiline3Value</td>
+
+                    @* Link fields *@
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.CustomLink1Value))
+                        {
+                            <a href="@item.CustomLink1Value" target="_blank">Link</a>
+                        }
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.CustomLink2Value))
+                        {
+                            <a href="@item.CustomLink2Value" target="_blank">Link</a>
+                        }
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.CustomLink3Value))
+                        {
+                            <a href="@item.CustomLink3Value" target="_blank">Link</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
