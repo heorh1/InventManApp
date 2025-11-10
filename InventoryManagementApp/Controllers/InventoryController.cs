@@ -178,8 +178,7 @@ namespace InventoryManagementApp.Controllers
                 return RedirectToAction("Create", new { id = model.InventoryId, activeTab = "items" });
             }
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Unauthorized();
+            
 
             var inventory = await _context.Inventories
                 .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
@@ -190,33 +189,31 @@ namespace InventoryManagementApp.Controllers
                 return RedirectToAction("Create");
             }
 
-            var newItem = new InventoryItem
+            var item = new InventoryItem
             {
-                InventoryId = inventory.Id,
-                CreatedById = user.Id,
-
-                CustomString1Value = inventory.CustomString1State ? model.CustomString1Value : null,
-                CustomString2Value = inventory.CustomString2State ? model.CustomString2Value : null,
-                CustomString3Value = inventory.CustomString3State ? model.CustomString3Value : null,
-                CustomInt1Value = inventory.CustomInt1State ? model.CustomInt1Value : null,
-                CustomInt2Value = inventory.CustomInt2State ? model.CustomInt2Value : null,
-                CustomInt3Value = inventory.CustomInt3State ? model.CustomInt3Value : null,
-                CustomBool1Value = inventory.CustomBool1State ? model.CustomBool1Value : null,
-                CustomBool2Value = inventory.CustomBool2State ? model.CustomBool2Value : null,
-                CustomBool3Value = inventory.CustomBool3State ? model.CustomBool3Value : null,
-                CustomMultiline1Value = inventory.CustomMultiline1State ? model.CustomMultiline1Value : null,
-                CustomMultiline2Value = inventory.CustomMultiline2State ? model.CustomMultiline2Value : null,
-                CustomMultiline3Value = inventory.CustomMultiline3State ? model.CustomMultiline3Value : null,
-                CustomLink1Value = inventory.CustomLink1State ? model.CustomLink1Value : null,
-                CustomLink2Value = inventory.CustomLink2State ? model.CustomLink2Value : null,
-                CustomLink3Value = inventory.CustomLink3State ? model.CustomLink3Value : null
+                InventoryId = model.InventoryId,
+                CustomString1Value = model.CustomString1Value,
+                CustomString2Value = model.CustomString2Value,
+                CustomString3Value = model.CustomString3Value,
+                CustomInt1Value = model.CustomInt1Value,
+                CustomInt2Value = model.CustomInt2Value,
+                CustomInt3Value = model.CustomInt3Value,
+                CustomBool1Value = model.CustomBool1Value,
+                CustomBool2Value = model.CustomBool2Value,
+                CustomBool3Value = model.CustomBool3Value,
+                CustomMultiline1Value = model.CustomMultiline1Value,
+                CustomMultiline2Value = model.CustomMultiline2Value,
+                CustomMultiline3Value = model.CustomMultiline3Value,
+                CustomLink1Value = model.CustomLink1Value,
+                CustomLink2Value = model.CustomLink2Value,
+                CustomLink3Value = model.CustomLink3Value
             };
 
-            _context.InventoryItems.Add(newItem);
+            _context.InventoryItems.Add(item);
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Item added successfully!";
-            return RedirectToAction("Create", new { id = inventory.Id, activeTab = "items" });
+            return RedirectToAction("Create", new { id = model.InventoryId, activeTab = "items" });
         }
     }
 }
