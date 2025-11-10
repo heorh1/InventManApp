@@ -1,132 +1,135 @@
-﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
-@{
-    var structure = ViewBag.Structure as InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel;
-}
+﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel
 
-<h4>Add Item</h4>
+<h3>Add Item</h3>
 
 <form asp-action="AddItem" method="post">
     @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="InventoryId" />
+    <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
 
     <div class="row">
-        @if (structure != null)
+        <!--  Single-line text fields -->
+        @if (Model.CustomString1State)
         {
-            @if (!string.IsNullOrEmpty(structure.CustomString1Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@structure.CustomString1Name</label>
-                    <input asp-for="CustomString1Value" class="form-control" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomString2Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@structure.CustomString2Name</label>
-                    <input asp-for="CustomString2Value" class="form-control" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomString3Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@structure.CustomString3Name</label>
-                    <input asp-for="CustomString3Value" class="form-control" />
-                </div>
-            }
-
-            @if (!string.IsNullOrEmpty(structure.CustomInt1Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@structure.CustomInt1Name</label>
-                    <input asp-for="CustomInt1Value" type="number" class="form-control" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomInt2Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@structure.CustomInt2Name</label>
-                    <input asp-for="CustomInt2Value" type="number" class="form-control" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomInt3Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@structure.CustomInt3Name</label>
-                    <input asp-for="CustomInt3Value" type="number" class="form-control" />
-                </div>
-            }
-
-            @if (!string.IsNullOrEmpty(structure.CustomBool1Name))
-            {
-                <div class="col-md-4 mb-3 form-check">
-                    <input asp-for="CustomBool1Value" class="form-check-input" type="checkbox" />
-                    <label class="form-check-label">@structure.CustomBool1Name</label>
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomBool2Name))
-            {
-                <div class="col-md-4 mb-3 form-check">
-                    <input asp-for="CustomBool2Value" class="form-check-input" type="checkbox" />
-                    <label class="form-check-label">@structure.CustomBool2Name</label>
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomBool3Name))
-            {
-                <div class="col-md-4 mb-3 form-check">
-                    <input asp-for="CustomBool3Value" class="form-check-input" type="checkbox" />
-                    <label class="form-check-label">@structure.CustomBool3Name</label>
-                </div>
-            }
-
-            @if (!string.IsNullOrEmpty(structure.CustomMultiline1Name))
-            {
-                <div class="col-md-12 mb-3">
-                    <label>@structure.CustomMultiline1Name</label>
-                    <textarea asp-for="CustomMultiline1Value" class="form-control"></textarea>
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomMultiline2Name))
-            {
-                <div class="col-md-12 mb-3">
-                    <label>@structure.CustomMultiline2Name</label>
-                    <textarea asp-for="CustomMultiline2Value" class="form-control"></textarea>
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomMultiline3Name))
-            {
-                <div class="col-md-12 mb-3">
-                    <label>@structure.CustomMultiline3Name</label>
-                    <textarea asp-for="CustomMultiline3Value" class="form-control"></textarea>
-                </div>
-            }
-
-            @if (!string.IsNullOrEmpty(structure.CustomLink1Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@structure.CustomLink1Name</label>
-                    <input asp-for="CustomLink1Value" class="form-control" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomLink2Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@structure.CustomLink2Name</label>
-                    <input asp-for="CustomLink2Value" class="form-control" />
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(structure.CustomLink3Name))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@structure.CustomLink3Name</label>
-                    <input asp-for="CustomLink3Value" class="form-control" />
-                </div>
-            }
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomString1Name</label>
+                <input name="CustomString1Value" class="form-control" />
+            </div>
         }
-        else
+        @if (Model.CustomString2State)
         {
-            <p>Inventory structure not loaded.</p>
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomString2Name</label>
+                <input name="CustomString2Value" class="form-control" />
+            </div>
+        }
+        @if (Model.CustomString3State)
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomString3Name</label>
+                <input name="CustomString3Value" class="form-control" />
+            </div>
         }
     </div>
 
-    <button type="submit" class="btn btn-primary">Add Item</button>
+    <div class="row">
+        <!--  Numeric fields -->
+        @if (Model.CustomInt1State)
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomInt1Name</label>
+                <input name="CustomInt1Value" type="number" class="form-control" />
+            </div>
+        }
+        @if (Model.CustomInt2State)
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomInt2Name</label>
+                <input name="CustomInt2Value" type="number" class="form-control" />
+            </div>
+        }
+        @if (Model.CustomInt3State)
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomInt3Name</label>
+                <input name="CustomInt3Value" type="number" class="form-control" />
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <!--  Boolean fields -->
+        @if (Model.CustomBool1State)
+        {
+            <div class="col-md-4 mb-3 form-check">
+                <input name="CustomBool1Value" type="checkbox" class="form-check-input" />
+                <label class="form-check-label">@Model.CustomBool1Name</label>
+            </div>
+        }
+        @if (Model.CustomBool2State)
+        {
+            <div class="col-md-4 mb-3 form-check">
+                <input name="CustomBool2Value" type="checkbox" class="form-check-input" />
+                <label class="form-check-label">@Model.CustomBool2Name</label>
+            </div>
+        }
+        @if (Model.CustomBool3State)
+        {
+            <div class="col-md-4 mb-3 form-check">
+                <input name="CustomBool3Value" type="checkbox" class="form-check-input" />
+                <label class="form-check-label">@Model.CustomBool3Name</label>
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <!--  Multiline fields -->
+        @if (Model.CustomMultiline1State)
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomMultiline1Name</label>
+                <textarea name="CustomMultiline1Value" class="form-control"></textarea>
+            </div>
+        }
+        @if (Model.CustomMultiline2State)
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomMultiline2Name</label>
+                <textarea name="CustomMultiline2Value" class="form-control"></textarea>
+            </div>
+        }
+        @if (Model.CustomMultiline3State)
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomMultiline3Name</label>
+                <textarea name="CustomMultiline3Value" class="form-control"></textarea>
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <!--  Link fields -->
+        @if (Model.CustomLink1State)
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomLink1Name</label>
+                <input name="CustomLink1Value" type="url" class="form-control" />
+            </div>
+        }
+        @if (Model.CustomLink2State)
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomLink2Name</label>
+                <input name="CustomLink2Value" type="url" class="form-control" />
+            </div>
+        }
+        @if (Model.CustomLink3State)
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomLink3Name</label>
+                <input name="CustomLink3Value" type="url" class="form-control" />
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Add Item</button>
 </form>
