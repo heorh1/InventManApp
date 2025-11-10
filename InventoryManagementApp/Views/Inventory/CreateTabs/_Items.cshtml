@@ -1,8 +1,12 @@
-﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
+﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel
 
-<button id="btnAddItem" class="btn btn-success mb-2">Add Item</button>
+<div class="mb-3">
+    <button id="btnAddItem" class="btn btn-success" data-inventory-id="@Model.InventoryId">
+        Add Item
+    </button>
+</div>
 
-<div id="addItemFormContainer" style="display:none;"></div>
+<div id="addItemFormContainer"></div>
 
 <div id="itemListContainer">
     @await Html.PartialAsync("_ItemListPartial", Model.Items)
@@ -11,25 +15,27 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
-            $("#btnAddItem").click(function() {
-                $("#addItemFormContainer").toggle();
-
-                if ($("#addItemFormContainer").is(':empty')) {
-                    $.get('@Url.Action("GetAddItemForm", "Inventory")', { inventoryId: @Model.InventoryId }, function(data) {
-                        $("#addItemFormContainer").html(data);
-                    });
-                }
+            $(document).on('click', '#btnAddItem', function(e) {
+                e.preventDefault();
+                var inventoryId = $(this).data('inventory-id');
+                $('#addItemFormContainer').load('/Inventory/GetAddItemForm?inventoryId=' + inventoryId);
             });
 
-            // Делегируем сабмит формы через AJAX
-            $(document).on("submit", "#addItemFormContainer form", function(e) {
+            $(document).on('submit', '#addItemForm', function(e) {
                 e.preventDefault();
-                var form = $(this);
+                var $form = $(this);
 
-                $.post(form.attr("action"), form.serialize(), function(data) {
-                    $("#itemListContainer").html(data);
-                    form.trigger("reset");
-                    $("#addItemFormContainer").hide();
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function (result) {
+                        $('#itemListContainer').html(result);
+                        $('#addItemFormContainer').empty();
+                    },
+                    error: function () {
+                        alert('Error adding item. Check input values.');
+                    }
                 });
             });
         });

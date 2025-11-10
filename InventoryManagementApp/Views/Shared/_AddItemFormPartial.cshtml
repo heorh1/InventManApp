@@ -5,7 +5,6 @@
     <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
 
     <div class="row">
-        <!-- Single-line text fields -->
         @if (!string.IsNullOrEmpty(Model.CustomString1Name))
         {
             <div class="col-md-4 mb-3">
@@ -30,7 +29,6 @@
     </div>
 
     <div class="row">
-        <!-- Numeric fields -->
         @if (!string.IsNullOrEmpty(Model.CustomInt1Name))
         {
             <div class="col-md-4 mb-3">
@@ -55,7 +53,6 @@
     </div>
 
     <div class="row">
-        <!-- Boolean fields -->
         @if (!string.IsNullOrEmpty(Model.CustomBool1Name))
         {
             <div class="col-md-4 mb-3 form-check">
@@ -80,7 +77,6 @@
     </div>
 
     <div class="row">
-        <!-- Multiline fields -->
         @if (!string.IsNullOrEmpty(Model.CustomMultiline1Name))
         {
             <div class="col-md-6 mb-3">
@@ -105,7 +101,6 @@
     </div>
 
     <div class="row">
-        <!-- Link fields -->
         @if (!string.IsNullOrEmpty(Model.CustomLink1Name))
         {
             <div class="col-md-6 mb-3">
@@ -129,5 +124,5 @@
         }
     </div>
 
-    <button type="submit" class="btn btn-success mt-3">Save Item</button>
+    <button type="submit" class="btn btn-success mt-3">Add Item</button>
 </form>

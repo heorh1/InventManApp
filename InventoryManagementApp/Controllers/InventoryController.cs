@@ -44,21 +44,21 @@ namespace InventoryManagementApp.Controllers
                     IsPublic = inventory.IsPublic,
                     Items = inventory.Items.ToList(),
 
-                    CustomString1State = inventory.CustomString1State,
-                    CustomString2State = inventory.CustomString2State,
-                    CustomString3State = inventory.CustomString3State,
-                    CustomInt1State = inventory.CustomInt1State,
-                    CustomInt2State = inventory.CustomInt2State,
-                    CustomInt3State = inventory.CustomInt3State,
-                    CustomBool1State = inventory.CustomBool1State,
-                    CustomBool2State = inventory.CustomBool2State,
-                    CustomBool3State = inventory.CustomBool3State,
-                    CustomMultiline1State = inventory.CustomMultiline1State,
-                    CustomMultiline2State = inventory.CustomMultiline2State,
-                    CustomMultiline3State = inventory.CustomMultiline3State,
-                    CustomLink1State = inventory.CustomLink1State,
-                    CustomLink2State = inventory.CustomLink2State,
-                    CustomLink3State = inventory.CustomLink3State
+                    CustomString1Name = inventory.CustomString1Name,
+                    CustomString2Name = inventory.CustomString2Name,
+                    CustomString3Name = inventory.CustomString3Name,
+                    CustomInt1Name = inventory.CustomInt1Name,
+                    CustomInt2Name = inventory.CustomInt2Name,
+                    CustomInt3Name = inventory.CustomInt3Name,
+                    CustomBool1Name = inventory.CustomBool1Name,
+                    CustomBool2Name = inventory.CustomBool2Name,
+                    CustomBool3Name = inventory.CustomBool3Name,
+                    CustomMultiline1Name = inventory.CustomMultiline1Name,
+                    CustomMultiline2Name = inventory.CustomMultiline2Name,
+                    CustomMultiline3Name = inventory.CustomMultiline3Name,
+                    CustomLink1Name = inventory.CustomLink1Name,
+                    CustomLink2Name = inventory.CustomLink2Name,
+                    CustomLink3Name = inventory.CustomLink3Name
                 };
             }
             else
@@ -93,120 +93,42 @@ namespace InventoryManagementApp.Controllers
                 IsPublic = model.IsPublic,
                 Creator = user,
 
-                // Single-line fields
-                CustomString1State = model.CustomString1State,
                 CustomString1Name = model.CustomString1Name,
-                CustomString1Description = model.CustomString1Description,
-                CustomString2State = model.CustomString2State,
                 CustomString2Name = model.CustomString2Name,
-                CustomString2Description = model.CustomString2Description,
-                CustomString3State = model.CustomString3State,
                 CustomString3Name = model.CustomString3Name,
-                CustomString3Description = model.CustomString3Description,
-
-                // Numeric fields
-                CustomInt1State = model.CustomInt1State,
                 CustomInt1Name = model.CustomInt1Name,
-                CustomInt1Description = model.CustomInt1Description,
-                CustomInt2State = model.CustomInt2State,
                 CustomInt2Name = model.CustomInt2Name,
-                CustomInt2Description = model.CustomInt2Description,
-                CustomInt3State = model.CustomInt3State,
                 CustomInt3Name = model.CustomInt3Name,
-                CustomInt3Description = model.CustomInt3Description,
-
-                // Boolean fields
-                CustomBool1State = model.CustomBool1State,
                 CustomBool1Name = model.CustomBool1Name,
-                CustomBool1Description = model.CustomBool1Description,
-                CustomBool2State = model.CustomBool2State,
                 CustomBool2Name = model.CustomBool2Name,
-                CustomBool2Description = model.CustomBool2Description,
-                CustomBool3State = model.CustomBool3State,
                 CustomBool3Name = model.CustomBool3Name,
-                CustomBool3Description = model.CustomBool3Description,
-
-                // Multi-line fields
-                CustomMultiline1State = model.CustomMultiline1State,
                 CustomMultiline1Name = model.CustomMultiline1Name,
-                CustomMultiline1Description = model.CustomMultiline1Description,
-                CustomMultiline2State = model.CustomMultiline2State,
                 CustomMultiline2Name = model.CustomMultiline2Name,
-                CustomMultiline2Description = model.CustomMultiline2Description,
-                CustomMultiline3State = model.CustomMultiline3State,
                 CustomMultiline3Name = model.CustomMultiline3Name,
-                CustomMultiline3Description = model.CustomMultiline3Description,
-
-                // Links
-                CustomLink1State = model.CustomLink1State,
                 CustomLink1Name = model.CustomLink1Name,
-                CustomLink1Description = model.CustomLink1Description,
-                CustomLink2State = model.CustomLink2State,
                 CustomLink2Name = model.CustomLink2Name,
-                CustomLink2Description = model.CustomLink2Description,
-                CustomLink3State = model.CustomLink3State,
-                CustomLink3Name = model.CustomLink3Name,
-                CustomLink3Description = model.CustomLink3Description
+                CustomLink3Name = model.CustomLink3Name
             };
 
-            try
-            {
-                _context.Inventories.Add(inventory);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = $"Error while creating: {ex.Message}";
-                ViewBag.Categories = await _context.Categories.ToListAsync();
-                return View(model);
-            }
+            _context.Inventories.Add(inventory);
+            await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Inventory created successfully!";
-            TempData["CreatedInventoryId"] = inventory.Id;
-
             return RedirectToAction("Create", new { id = inventory.Id, activeTab = "items" });
         }
-
-        public async Task<IActionResult> GetAddItemForm(int inventoryId)
-        {
-            var inventory = await _context.Inventories
-                .Include(i => i.Items)
-                .FirstOrDefaultAsync(i => i.Id == inventoryId);
-
-            if (inventory == null) return NotFound();
-
-            var model = new AddItemViewModel
-            {
-                InventoryId = inventory.Id,
-                CustomString1Name = inventory.CustomString1Name,
-                CustomString2Name = inventory.CustomString2Name,
-                CustomString3Name = inventory.CustomString3Name,
-                CustomInt1Name = inventory.CustomInt1Name,
-                CustomInt2Name = inventory.CustomInt2Name,
-                CustomInt3Name = inventory.CustomInt3Name,
-                CustomBool1Name = inventory.CustomBool1Name,
-                CustomBool2Name = inventory.CustomBool2Name,
-                CustomBool3Name = inventory.CustomBool3Name,
-                CustomMultiline1Name = inventory.CustomMultiline1Name,
-                CustomMultiline2Name = inventory.CustomMultiline2Name,
-                CustomMultiline3Name = inventory.CustomMultiline3Name,
-                CustomLink1Name = inventory.CustomLink1Name,
-                CustomLink2Name = inventory.CustomLink2Name,
-                CustomLink3Name = inventory.CustomLink3Name,
-                Items = inventory.Items.ToList()
-            };
-
-            return PartialView("_Items", model);
-        }
-
 
         // POST: Add Item to Inventory (AJAX)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddItem(AddItemViewModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
+
+            var inventory = await _context.Inventories
+                .Include(i => i.Items)
+                .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
+
+            if (inventory == null) return NotFound();
 
             var item = new InventoryItem
             {
@@ -231,18 +153,12 @@ namespace InventoryManagementApp.Controllers
             _context.InventoryItems.Add(item);
             await _context.SaveChangesAsync();
 
-            // Возвращаем обновленный список через Partial
-            var inventory = await _context.Inventories
+            // Обновляем список элементов
+            inventory = await _context.Inventories
                 .Include(i => i.Items)
                 .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
 
-            var updatedModel = new AddItemViewModel
-            {
-                InventoryId = inventory.Id,
-                Items = inventory.Items.ToList()
-            };
-
-            return PartialView("_ItemListPartial", updatedModel.Items);
+            return PartialView("_ItemListPartial", inventory.Items.ToList());
         }
     }
 }
