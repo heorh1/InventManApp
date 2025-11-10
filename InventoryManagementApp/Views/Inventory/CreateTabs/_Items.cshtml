@@ -1,54 +1,36 @@
 ﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
 
-<h3>Items</h3>
+<button id="btnAddItem" class="btn btn-success mb-2">Add Item</button>
 
-<!-- 🔹 Кнопка для показа/скрытия формы -->
-<button id="showAddItemForm" class="btn btn-success mb-3">Add Item</button>
+<div id="addItemFormContainer" style="display:none;"></div>
 
-<!-- 🔹 Контейнер с формой для добавления айтема -->
-<div id="addItemFormContainer" style="display:none;">
-    @await Html.PartialAsync("_AddItemFormPartial", Model)
-</div>
-
-<!-- 🔹 Контейнер для списка айтемов -->
 <div id="itemListContainer">
     @await Html.PartialAsync("_ItemListPartial", Model.Items)
 </div>
 
 @section Scripts {
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var addButton = document.getElementById("showAddItemForm");
-            var formContainer = document.getElementById("addItemFormContainer");
+        $(document).ready(function() {
+            $("#btnAddItem").click(function() {
+                $("#addItemFormContainer").toggle();
 
-            // Показываем/скрываем форму
-            addButton.addEventListener("click", function(e) {
-                e.preventDefault();
-                formContainer.style.display = (formContainer.style.display === "none") ? "block" : "none";
+                if ($("#addItemFormContainer").is(':empty')) {
+                    $.get('@Url.Action("GetAddItemForm", "Inventory")', { inventoryId: @Model.InventoryId }, function(data) {
+                        $("#addItemFormContainer").html(data);
+                    });
+                }
             });
 
-            // AJAX отправка формы
-            var addItemForm = document.getElementById("addItemForm");
-            addItemForm.addEventListener("submit", function(e) {
+            // Делегируем сабмит формы через AJAX
+            $(document).on("submit", "#addItemFormContainer form", function(e) {
                 e.preventDefault();
+                var form = $(this);
 
-                var formData = new FormData(addItemForm);
-
-                fetch(addItemForm.action, {
-                    method: addItemForm.method,
-                    body: formData,
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                })
-                .then(response => response.text())
-                .then(html => {
-                    // Обновляем список айтемов
-                    document.getElementById("itemListContainer").innerHTML = html;
-
-                    // Сбрасываем форму и прячем
-                    addItemForm.reset();
-                    formContainer.style.display = "none";
-                })
-                .catch(err => console.error(err));
+                $.post(form.attr("action"), form.serialize(), function(data) {
+                    $("#itemListContainer").html(data);
+                    form.trigger("reset");
+                    $("#addItemFormContainer").hide();
+                });
             });
         });
     </script>

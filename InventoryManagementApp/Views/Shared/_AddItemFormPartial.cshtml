@@ -1,83 +1,133 @@
 ﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
 
-<form id="addItemForm" asp-action="AddItem" method="post">
+<form asp-action="AddItem" method="post">
     @Html.AntiForgeryToken()
     <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
 
     <div class="row">
         <!-- Single-line text fields -->
-        @for (int i = 1; i <= 3; i++)
+        @if (!string.IsNullOrEmpty(Model.CustomString1Name))
         {
-            var nameProp = (string)Model.GetType().GetProperty($"CustomString{i}Name")!.GetValue(Model)!;
-            if (!string.IsNullOrEmpty(nameProp))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@nameProp</label>
-                    <input name=@($"CustomString{i}Value") class="form-control" value=@Model.GetType().GetProperty($"CustomString{i}Value")!.GetValue(Model) />
-                </div>
-            }
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomString1Name</label>
+                <input name="CustomString1Value" class="form-control" value="@Model.CustomString1Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomString2Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomString2Name</label>
+                <input name="CustomString2Value" class="form-control" value="@Model.CustomString2Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomString3Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomString3Name</label>
+                <input name="CustomString3Value" class="form-control" value="@Model.CustomString3Value" />
+            </div>
         }
     </div>
 
     <div class="row">
         <!-- Numeric fields -->
-        @for (int i = 1; i <= 3; i++)
+        @if (!string.IsNullOrEmpty(Model.CustomInt1Name))
         {
-            var nameProp = (string?)Model.GetType().GetProperty($"CustomInt{i}Name")!.GetValue(Model);
-            if (!string.IsNullOrEmpty(nameProp))
-            {
-                <div class="col-md-4 mb-3">
-                    <label>@nameProp</label>
-                    <input name=@($"CustomInt{i}Value") type="number" class="form-control" value=@Model.GetType().GetProperty($"CustomInt{i}Value")!.GetValue(Model) />
-                </div>
-            }
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomInt1Name</label>
+                <input name="CustomInt1Value" type="number" class="form-control" value="@Model.CustomInt1Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomInt2Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomInt2Name</label>
+                <input name="CustomInt2Value" type="number" class="form-control" value="@Model.CustomInt2Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomInt3Name))
+        {
+            <div class="col-md-4 mb-3">
+                <label>@Model.CustomInt3Name</label>
+                <input name="CustomInt3Value" type="number" class="form-control" value="@Model.CustomInt3Value" />
+            </div>
         }
     </div>
 
     <div class="row">
         <!-- Boolean fields -->
-        @for (int i = 1; i <= 3; i++)
+        @if (!string.IsNullOrEmpty(Model.CustomBool1Name))
         {
-            var nameProp = (string?)Model.GetType().GetProperty($"CustomBool{i}Name")!.GetValue(Model);
-            if (!string.IsNullOrEmpty(nameProp))
-            {
-                <div class="col-md-4 mb-3 form-check">
-                    <input name=@($"CustomBool{i}Value") type="checkbox" class="form-check-input" value="true" @(Model.GetType().GetProperty($"CustomBool{i}Value")!.GetValue(Model)?.Equals(true) == true ? "checked" : "") />
-                    <label class="form-check-label">@nameProp</label>
-                </div>
-            }
+            <div class="col-md-4 mb-3 form-check">
+                <input name="CustomBool1Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool1Value == true ? "checked" : "") />
+                <label class="form-check-label">@Model.CustomBool1Name</label>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomBool2Name))
+        {
+            <div class="col-md-4 mb-3 form-check">
+                <input name="CustomBool2Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool2Value == true ? "checked" : "") />
+                <label class="form-check-label">@Model.CustomBool2Name</label>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomBool3Name))
+        {
+            <div class="col-md-4 mb-3 form-check">
+                <input name="CustomBool3Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool3Value == true ? "checked" : "") />
+                <label class="form-check-label">@Model.CustomBool3Name</label>
+            </div>
         }
     </div>
 
     <div class="row">
         <!-- Multiline fields -->
-        @for (int i = 1; i <= 3; i++)
+        @if (!string.IsNullOrEmpty(Model.CustomMultiline1Name))
         {
-            var nameProp = (string?)Model.GetType().GetProperty($"CustomMultiline{i}Name")!.GetValue(Model);
-            if (!string.IsNullOrEmpty(nameProp))
-            {
-                <div class="col-md-6 mb-3">
-                    <label>@nameProp</label>
-                    <textarea name=@($"CustomMultiline{i}Value") class="form-control">@Model.GetType().GetProperty($"CustomMultiline{i}Value")!.GetValue(Model)</textarea>
-                </div>
-            }
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomMultiline1Name</label>
+                <textarea name="CustomMultiline1Value" class="form-control">@Model.CustomMultiline1Value</textarea>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomMultiline2Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomMultiline2Name</label>
+                <textarea name="CustomMultiline2Value" class="form-control">@Model.CustomMultiline2Value</textarea>
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomMultiline3Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomMultiline3Name</label>
+                <textarea name="CustomMultiline3Value" class="form-control">@Model.CustomMultiline3Value</textarea>
+            </div>
         }
     </div>
 
     <div class="row">
         <!-- Link fields -->
-        @for (int i = 1; i <= 3; i++)
+        @if (!string.IsNullOrEmpty(Model.CustomLink1Name))
         {
-            var nameProp = (string?)Model.GetType().GetProperty($"CustomLink{i}Name")!.GetValue(Model);
-            if (!string.IsNullOrEmpty(nameProp))
-            {
-                <div class="col-md-6 mb-3">
-                    <label>@nameProp</label>
-                    <input name=@($"CustomLink{i}Value") type="url" class="form-control" value=@Model.GetType().GetProperty($"CustomLink{i}Value")!.GetValue(Model) />
-                </div>
-            }
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomLink1Name</label>
+                <input name="CustomLink1Value" type="url" class="form-control" value="@Model.CustomLink1Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomLink2Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomLink2Name</label>
+                <input name="CustomLink2Value" type="url" class="form-control" value="@Model.CustomLink2Value" />
+            </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomLink3Name))
+        {
+            <div class="col-md-6 mb-3">
+                <label>@Model.CustomLink3Name</label>
+                <input name="CustomLink3Value" type="url" class="form-control" value="@Model.CustomLink3Value" />
+            </div>
         }
     </div>
 
-    <button type="submit" class="btn btn-success mt-3">Add Item</button>
+    <button type="submit" class="btn btn-success mt-3">Save Item</button>
 </form>

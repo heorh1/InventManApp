@@ -167,19 +167,46 @@ namespace InventoryManagementApp.Controllers
             return RedirectToAction("Create", new { id = inventory.Id, activeTab = "items" });
         }
 
+        public async Task<IActionResult> GetAddItemForm(int inventoryId)
+        {
+            var inventory = await _context.Inventories
+                .Include(i => i.Items)
+                .FirstOrDefaultAsync(i => i.Id == inventoryId);
+
+            if (inventory == null) return NotFound();
+
+            var model = new AddItemViewModel
+            {
+                InventoryId = inventory.Id,
+                CustomString1Name = inventory.CustomString1Name,
+                CustomString2Name = inventory.CustomString2Name,
+                CustomString3Name = inventory.CustomString3Name,
+                CustomInt1Name = inventory.CustomInt1Name,
+                CustomInt2Name = inventory.CustomInt2Name,
+                CustomInt3Name = inventory.CustomInt3Name,
+                CustomBool1Name = inventory.CustomBool1Name,
+                CustomBool2Name = inventory.CustomBool2Name,
+                CustomBool3Name = inventory.CustomBool3Name,
+                CustomMultiline1Name = inventory.CustomMultiline1Name,
+                CustomMultiline2Name = inventory.CustomMultiline2Name,
+                CustomMultiline3Name = inventory.CustomMultiline3Name,
+                CustomLink1Name = inventory.CustomLink1Name,
+                CustomLink2Name = inventory.CustomLink2Name,
+                CustomLink3Name = inventory.CustomLink3Name,
+                Items = inventory.Items.ToList()
+            };
+
+            return PartialView("_Items", model);
+        }
+
+
         // POST: Add Item to Inventory (AJAX)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddItem(AddItemViewModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest("Invalid item data.");
-
-            var inventory = await _context.Inventories
-                .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
-
-            if (inventory == null)
-                return NotFound();
+                return BadRequest();
 
             var item = new InventoryItem
             {
@@ -204,13 +231,18 @@ namespace InventoryManagementApp.Controllers
             _context.InventoryItems.Add(item);
             await _context.SaveChangesAsync();
 
-            // Загружаем актуальный список айтемов для этого инвентаря
-            var items = await _context.InventoryItems
-                .Where(i => i.InventoryId == model.InventoryId)
-                .ToListAsync();
+            // Возвращаем обновленный список через Partial
+            var inventory = await _context.Inventories
+                .Include(i => i.Items)
+                .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
 
-            // Возвращаем частичный HTML
-            return PartialView("_ItemListPartial", items);
+            var updatedModel = new AddItemViewModel
+            {
+                InventoryId = inventory.Id,
+                Items = inventory.Items.ToList()
+            };
+
+            return PartialView("_ItemListPartial", updatedModel.Items);
         }
     }
 }
