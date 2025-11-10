@@ -1,6 +1,9 @@
-﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel
+﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
+@{
+    var structure = ViewBag.Structure as InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel;
+}
 
-@if (Model.InventoryId.HasValue)
+@if (structure != null)
 {
     <form asp-action="AddItem" method="post">
         @Html.AntiForgeryToken()
@@ -9,127 +12,131 @@
         <table class="table">
             <thead>
                 <tr>
-                    @if (Model.CustomString1State)
+                    @if (structure.CustomString1State)
                     {
-                        <th>@Model.CustomString1Name</th>
+                        <th>@structure.CustomString1Name</th>
                     }
-                    @if (Model.CustomString2State)
+                    @if (structure.CustomString2State)
                     {
-                        <th>@Model.CustomString2Name</th>
+                        <th>@structure.CustomString2Name</th>
                     }
-                    @if (Model.CustomString3State)
+                    @if (structure.CustomString3State)
                     {
-                        <th>@Model.CustomString3Name</th>
+                        <th>@structure.CustomString3Name</th>
                     }
-                    @if (Model.CustomInt1State)
+                    @if (structure.CustomInt1State)
                     {
-                        <th>@Model.CustomInt1Name</th>
+                        <th>@structure.CustomInt1Name</th>
                     }
-                    @if (Model.CustomInt2State)
+                    @if (structure.CustomInt2State)
                     {
-                        <th>@Model.CustomInt2Name</th>
+                        <th>@structure.CustomInt2Name</th>
                     }
-                    @if (Model.CustomInt3State)
+                    @if (structure.CustomInt3State)
                     {
-                        <th>@Model.CustomInt3Name</th>
+                        <th>@structure.CustomInt3Name</th>
                     }
-                    @if (Model.CustomBool1State)
+                    @if (structure.CustomBool1State)
                     {
-                        <th>@Model.CustomBool1Name</th>
+                        <th>@structure.CustomBool1Name</th>
                     }
-                    @if (Model.CustomBool2State)
+                    @if (structure.CustomBool2State)
                     {
-                        <th>@Model.CustomBool2Name</th>
+                        <th>@structure.CustomBool2Name</th>
                     }
-                    @if (Model.CustomBool3State)
+                    @if (structure.CustomBool3State)
                     {
-                        <th>@Model.CustomBool3Name</th>
+                        <th>@structure.CustomBool3Name</th>
                     }
-                    @if (Model.CustomMultiline1State)
+                    @if (structure.CustomMultiline1State)
                     {
-                        <th>@Model.CustomMultiline1Name</th>
+                        <th>@structure.CustomMultiline1Name</th>
                     }
-                    @if (Model.CustomMultiline2State)
+                    @if (structure.CustomMultiline2State)
                     {
-                        <th>@Model.CustomMultiline2Name</th>
+                        <th>@structure.CustomMultiline2Name</th>
                     }
-                    @if (Model.CustomMultiline3State)
+                    @if (structure.CustomMultiline3State)
                     {
-                        <th>@Model.CustomMultiline3Name</th>
+                        <th>@structure.CustomMultiline3Name</th>
                     }
-                    @if (Model.CustomLink1State)
+                    @if (structure.CustomLink1State)
                     {
-                        <th>@Model.CustomLink1Name</th>
+                        <th>@structure.CustomLink1Name</th>
                     }
-                    @if (Model.CustomLink2State)
+                    @if (structure.CustomLink2State)
                     {
-                        <th>@Model.CustomLink2Name</th>
+                        <th>@structure.CustomLink2Name</th>
                     }
-                    @if (Model.CustomLink3State)
+                    @if (structure.CustomLink3State)
                     {
-                        <th>@Model.CustomLink3Name</th>
+                        <th>@structure.CustomLink3Name</th>
                     }
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    @if (Model.CustomString1State)
+                    @if (structure.CustomString1State)
                     {
                         <td><input type="text" name="CustomString1Value" class="form-control" /></td>
                     }
-                    @if (Model.CustomString2State)
+                    @if (structure.CustomString2State)
                     {
                         <td><input type="text" name="CustomString2Value" class="form-control" /></td>
                     }
-                    @if (Model.CustomString3State)
+                    @if (structure.CustomString3State)
                     {
                         <td><input type="text" name="CustomString3Value" class="form-control" /></td>
                     }
-                    @if (Model.CustomInt1State)
+
+                    @if (structure.CustomInt1State)
                     {
                         <td><input type="number" name="CustomInt1Value" class="form-control" /></td>
                     }
-                    @if (Model.CustomInt2State)
+                    @if (structure.CustomInt2State)
                     {
                         <td><input type="number" name="CustomInt2Value" class="form-control" /></td>
                     }
-                    @if (Model.CustomInt3State)
+                    @if (structure.CustomInt3State)
                     {
                         <td><input type="number" name="CustomInt3Value" class="form-control" /></td>
                     }
-                    @if (Model.CustomBool1State)
+
+                    @if (structure.CustomBool1State)
                     {
                         <td><input type="checkbox" name="CustomBool1Value" /></td>
                     }
-                    @if (Model.CustomBool2State)
+                    @if (structure.CustomBool2State)
                     {
                         <td><input type="checkbox" name="CustomBool2Value" /></td>
                     }
-                    @if (Model.CustomBool3State)
+                    @if (structure.CustomBool3State)
                     {
                         <td><input type="checkbox" name="CustomBool3Value" /></td>
                     }
-                    @if (Model.CustomMultiline1State)
+
+                    @if (structure.CustomMultiline1State)
                     {
                         <td><textarea name="CustomMultiline1Value" class="form-control"></textarea></td>
                     }
-                    @if (Model.CustomMultiline2State)
+                    @if (structure.CustomMultiline2State)
                     {
                         <td><textarea name="CustomMultiline2Value" class="form-control"></textarea></td>
                     }
-                    @if (Model.CustomMultiline3State)
+                    @if (structure.CustomMultiline3State)
                     {
                         <td><textarea name="CustomMultiline3Value" class="form-control"></textarea></td>
                     }
-                    @if (Model.CustomLink1State)
+
+                    @if (structure.CustomLink1State)
                     {
                         <td><input type="text" name="CustomLink1Value" class="form-control" /></td>
                     }
-                    @if (Model.CustomLink2State)
+                    @if (structure.CustomLink2State)
                     {
                         <td><input type="text" name="CustomLink2Value" class="form-control" /></td>
                     }
-                    @if (Model.CustomLink3State)
+                    @if (structure.CustomLink3State)
                     {
                         <td><input type="text" name="CustomLink3Value" class="form-control" /></td>
                     }

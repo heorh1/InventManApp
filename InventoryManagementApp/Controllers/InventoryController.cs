@@ -170,20 +170,19 @@ namespace InventoryManagementApp.Controllers
         // POST: Add Item to Inventory
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddItem(InventoryCreateViewModel model)
+        public async Task<IActionResult> AddItem(AddItemViewModel model)
         {
-            if (!model.InventoryId.HasValue)
+            if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Inventory ID is missing.";
-                return RedirectToAction("Create");
+                TempData["ErrorMessage"] = "Invalid item data.";
+                return RedirectToAction("Create", new { id = model.InventoryId, activeTab = "items" });
             }
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
 
             var inventory = await _context.Inventories
-                .Include(i => i.Items)
-                .FirstOrDefaultAsync(i => i.Id == model.InventoryId.Value);
+                .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
 
             if (inventory == null)
             {
@@ -217,7 +216,6 @@ namespace InventoryManagementApp.Controllers
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Item added successfully!";
-
             return RedirectToAction("Create", new { id = inventory.Id, activeTab = "items" });
         }
     }
