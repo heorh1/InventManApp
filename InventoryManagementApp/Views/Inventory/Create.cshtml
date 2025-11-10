@@ -15,59 +15,64 @@
     <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
 
-<form asp-action="Create" method="post">
-    @Html.AntiForgeryToken()
-    <div class="tab-container">
-        <ul class="nav nav-tabs" id="inventoryTabs" role="tablist">
-            <li class="nav-item">
-                <button class="nav-link active" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">Settings</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="customid-tab" data-bs-toggle="tab" data-bs-target="#customid" type="button" role="tab">Custom ID</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="fields-tab" data-bs-toggle="tab" data-bs-target="#fields" type="button" role="tab">Fields</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="access-tab" data-bs-toggle="tab" data-bs-target="#access" type="button" role="tab">Access</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type="button" role="tab">Items</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="chat-tab" data-bs-toggle="tab" data-bs-target="#chat" type="button" role="tab">Chat</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab">Stats</button>
-            </li>
-        </ul>
+<div class="tab-container">
+    <ul class="nav nav-tabs" id="inventoryTabs" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">Settings</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="customid-tab" data-bs-toggle="tab" data-bs-target="#customid" type="button" role="tab">Custom ID</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="fields-tab" data-bs-toggle="tab" data-bs-target="#fields" type="button" role="tab">Fields</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="access-tab" data-bs-toggle="tab" data-bs-target="#access" type="button" role="tab">Access</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type="button" role="tab">Items</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="chat-tab" data-bs-toggle="tab" data-bs-target="#chat" type="button" role="tab">Chat</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab">Stats</button>
+        </li>
+    </ul>
 
-        <div class="tab-content p-3 border border-top-0" id="inventoryTabsContent">
-            @await Html.PartialAsync("CreateTabs/_Settings", Model)
-            @await Html.PartialAsync("CreateTabs/_CustomId", Model)
-            @await Html.PartialAsync("CreateTabs/_Fields", Model)
-            @await Html.PartialAsync("CreateTabs/_Access", Model)
-
-            <div class="tab-pane fade @((ViewBag.ActiveTab == "items") ? "show active" : "")" id="items">
-                @if (Model.InventoryId.HasValue)
-                {
-                    var addItemModel = new InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
-                    {
-                        InventoryId = Model.InventoryId.Value
-                    };
-                    ViewBag.Structure = Model;
-                    @await Html.PartialAsync("CreateTabs/_Items", addItemModel)
-                }
-                else
-                {
-                    <p>Please save the inventory first to add items.</p>
-                }
+    <div class="tab-content p-3 border border-top-0" id="inventoryTabsContent">
+        <!-- 🔹 Общая форма создания инвентаря -->
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div class="tab-pane fade show active" id="settings" role="tabpanel">
+                @await Html.PartialAsync("CreateTabs/_Settings", Model)
             </div>
-            @await Html.PartialAsync("CreateTabs/_Chat", Model)
-            @await Html.PartialAsync("CreateTabs/_Stats", Model)
+            <div class="tab-pane fade" id="customid" role="tabpanel">
+                @await Html.PartialAsync("CreateTabs/_CustomId", Model)
+            </div>
+            <div class="tab-pane fade" id="fields" role="tabpanel">
+                @await Html.PartialAsync("CreateTabs/_Fields", Model)
+            </div>
+            <div class="tab-pane fade" id="access" role="tabpanel">
+                @await Html.PartialAsync("CreateTabs/_Access", Model)
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-success">Save Inventory</button>
+            </div>
+        </form>
+
+        <!-- 🔹 Отдельная форма для добавления Items -->
+        <div class="tab-pane fade @((ViewBag.ActiveTab == "items") ? "show active" : "")" id="items" role="tabpanel">
+            @* Передаём текущую InventoryCreateViewModel в partial (у тебя он рассчитан на этот тип) *@
+            @await Html.PartialAsync("CreateTabs/_Items", Model)
         </div>
+
+        <!-- 🔹 Остальные вкладки -->
+        @await Html.PartialAsync("CreateTabs/_Chat", Model)
+        @await Html.PartialAsync("CreateTabs/_Stats", Model)
     </div>
-</form>
+</div>
 
 @section Scripts {
     <script>
