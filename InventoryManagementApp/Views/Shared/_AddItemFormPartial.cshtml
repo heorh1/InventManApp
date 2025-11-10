@@ -1,0 +1,83 @@
+﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
+
+<form id="addItemForm" asp-action="AddItem" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
+
+    <div class="row">
+        <!-- Single-line text fields -->
+        @for (int i = 1; i <= 3; i++)
+        {
+            var nameProp = (string)Model.GetType().GetProperty($"CustomString{i}Name")!.GetValue(Model)!;
+            if (!string.IsNullOrEmpty(nameProp))
+            {
+                <div class="col-md-4 mb-3">
+                    <label>@nameProp</label>
+                    <input name=@($"CustomString{i}Value") class="form-control" value=@Model.GetType().GetProperty($"CustomString{i}Value")!.GetValue(Model) />
+                </div>
+            }
+        }
+    </div>
+
+    <div class="row">
+        <!-- Numeric fields -->
+        @for (int i = 1; i <= 3; i++)
+        {
+            var nameProp = (string?)Model.GetType().GetProperty($"CustomInt{i}Name")!.GetValue(Model);
+            if (!string.IsNullOrEmpty(nameProp))
+            {
+                <div class="col-md-4 mb-3">
+                    <label>@nameProp</label>
+                    <input name=@($"CustomInt{i}Value") type="number" class="form-control" value=@Model.GetType().GetProperty($"CustomInt{i}Value")!.GetValue(Model) />
+                </div>
+            }
+        }
+    </div>
+
+    <div class="row">
+        <!-- Boolean fields -->
+        @for (int i = 1; i <= 3; i++)
+        {
+            var nameProp = (string?)Model.GetType().GetProperty($"CustomBool{i}Name")!.GetValue(Model);
+            if (!string.IsNullOrEmpty(nameProp))
+            {
+                <div class="col-md-4 mb-3 form-check">
+                    <input name=@($"CustomBool{i}Value") type="checkbox" class="form-check-input" value="true" @(Model.GetType().GetProperty($"CustomBool{i}Value")!.GetValue(Model)?.Equals(true) == true ? "checked" : "") />
+                    <label class="form-check-label">@nameProp</label>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="row">
+        <!-- Multiline fields -->
+        @for (int i = 1; i <= 3; i++)
+        {
+            var nameProp = (string?)Model.GetType().GetProperty($"CustomMultiline{i}Name")!.GetValue(Model);
+            if (!string.IsNullOrEmpty(nameProp))
+            {
+                <div class="col-md-6 mb-3">
+                    <label>@nameProp</label>
+                    <textarea name=@($"CustomMultiline{i}Value") class="form-control">@Model.GetType().GetProperty($"CustomMultiline{i}Value")!.GetValue(Model)</textarea>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="row">
+        <!-- Link fields -->
+        @for (int i = 1; i <= 3; i++)
+        {
+            var nameProp = (string?)Model.GetType().GetProperty($"CustomLink{i}Name")!.GetValue(Model);
+            if (!string.IsNullOrEmpty(nameProp))
+            {
+                <div class="col-md-6 mb-3">
+                    <label>@nameProp</label>
+                    <input name=@($"CustomLink{i}Value") type="url" class="form-control" value=@Model.GetType().GetProperty($"CustomLink{i}Value")!.GetValue(Model) />
+                </div>
+            }
+        }
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Add Item</button>
+</form>

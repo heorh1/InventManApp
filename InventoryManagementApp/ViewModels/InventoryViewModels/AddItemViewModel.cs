@@ -1,4 +1,6 @@
-﻿namespace InventoryManagementApp.ViewModels.InventoryViewModels
+﻿using InventoryManagementApp.Models;
+
+namespace InventoryManagementApp.ViewModels.InventoryViewModels
 {
     public class AddItemViewModel
     {
@@ -38,6 +40,8 @@
         public string? CustomLink2Name { get; set; }
         public string? CustomLink3Value { get; set; }
         public string? CustomLink3Name { get; set; }
+
+        public List<InventoryItem> Items { get; set; } = new List<InventoryItem>();
 
     }
 }
