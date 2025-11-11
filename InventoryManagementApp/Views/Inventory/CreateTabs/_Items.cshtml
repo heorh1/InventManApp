@@ -17,17 +17,33 @@
         $(document).ready(function() {
             $(document).on('click', '#btnAddItem', function(e) {
                 e.preventDefault();
-                console.log("✅ Add Item button clicked"); 
 
                 var inventoryId = $(this).data('inventory-id');
-                console.log("InventoryId =", inventoryId);
 
                 $('#addItemFormContainer').load('/Inventory/GetAddItemForm?inventoryId=' + inventoryId, function(response, status, xhr) {
-                    console.log("AJAX status:", status);
-                    if (status === "error") console.error("Error loading form:", xhr.status, xhr.statusText);
+                    if (status === "error") {
+                        console.error("Error loading form:", xhr.status, xhr.statusText);
+                    }
+                });
+            });
+
+            $(document).on('submit', '#addItemForm', function(e) {
+                e.preventDefault();
+                var $form = $(this);
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function (result) {
+                        $('#itemListContainer').html(result);
+                        $('#addItemFormContainer').empty();
+                    },
+                    error: function () {
+                        alert('Error adding item. Check input values.');
+                    }
                 });
             });
         });
     </script>
 }
-
