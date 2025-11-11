@@ -32,7 +32,19 @@
             @await Html.PartialAsync("CreateTabs/_CustomId", Model)
             @await Html.PartialAsync("CreateTabs/_Fields", Model)
             @await Html.PartialAsync("CreateTabs/_Access", Model)
-            @await Html.PartialAsync("CreateTabs/_Items", Model)
+
+            <div class="tab-pane fade @((ViewBag.ActiveTab == "items") ? "show active" : "")" id="items" role="tabpanel">
+                @if (Model.InventoryId.HasValue && Model.InventoryId > 0)
+                {
+                    @await Html.PartialAsync("CreateTabs/_Items", Model)
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        💡 Save the inventory first to add items.
+                    </div>
+                }
+            </div>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Save Inventory</button>
