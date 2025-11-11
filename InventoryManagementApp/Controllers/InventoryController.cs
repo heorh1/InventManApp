@@ -117,6 +117,42 @@ namespace InventoryManagementApp.Controllers
             return RedirectToAction("Create", new { id = inventory.Id, activeTab = "items" });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAddItemForm(int inventoryId)
+        {
+            var inventory = await _context.Inventories.FindAsync(inventoryId);
+            if (inventory == null)
+                return NotFound();
+
+            var model = new AddItemViewModel
+            {
+                InventoryId = inventoryId,
+
+                CustomString1Name = inventory.CustomString1Name,
+                CustomString2Name = inventory.CustomString2Name,
+                CustomString3Name = inventory.CustomString3Name,
+
+                CustomInt1Name = inventory.CustomInt1Name,
+                CustomInt2Name = inventory.CustomInt2Name,
+                CustomInt3Name = inventory.CustomInt3Name,
+
+                CustomBool1Name = inventory.CustomBool1Name,
+                CustomBool2Name = inventory.CustomBool2Name,
+                CustomBool3Name = inventory.CustomBool3Name,
+
+                CustomMultiline1Name = inventory.CustomMultiline1Name,
+                CustomMultiline2Name = inventory.CustomMultiline2Name,
+                CustomMultiline3Name = inventory.CustomMultiline3Name,
+
+                CustomLink1Name = inventory.CustomLink1Name,
+                CustomLink2Name = inventory.CustomLink2Name,
+                CustomLink3Name = inventory.CustomLink3Name
+            };
+
+            return PartialView("_AddItemFormPartial", model);
+        }
+
+
         // POST: Add Item to Inventory (AJAX)
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -153,8 +189,7 @@ namespace InventoryManagementApp.Controllers
             _context.InventoryItems.Add(item);
             await _context.SaveChangesAsync();
 
-            // Обновляем список элементов
-            inventory = await _context.Inventories
+                inventory = await _context.Inventories
                 .Include(i => i.Items)
                 .FirstOrDefaultAsync(i => i.Id == model.InventoryId);
 
