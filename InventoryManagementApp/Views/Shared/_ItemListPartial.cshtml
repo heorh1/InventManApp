@@ -1,54 +1,56 @@
 ﻿@model IEnumerable<InventoryManagementApp.Models.InventoryItem>
 
-@if (Model != null && Model.Any())
-{
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>String 1</th>
-                <th>String 2</th>
-                <th>String 3</th>
-                <th>Int 1</th>
-                <th>Int 2</th>
-                <th>Int 3</th>
-                <th>Bool 1</th>
-                <th>Bool 2</th>
-                <th>Bool 3</th>
-                <th>Multiline 1</th>
-                <th>Multiline 2</th>
-                <th>Multiline 3</th>
-                <th>Link 1</th>
-                <th>Link 2</th>
-                <th>Link 3</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+<div id="itemListContent">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.CustomString1Value</td>
-                    <td>@item.CustomString2Value</td>
-                    <td>@item.CustomString3Value</td>
-                    <td>@item.CustomInt1Value</td>
-                    <td>@item.CustomInt2Value</td>
-                    <td>@item.CustomInt3Value</td>
-                    <td>@(item.CustomBool1Value == true ? "Yes" : "No")</td>
-                    <td>@(item.CustomBool2Value == true ? "Yes" : "No")</td>
-                    <td>@(item.CustomBool3Value == true ? "Yes" : "No")</td>
-                    <td>@item.CustomMultiline1Value</td>
-                    <td>@item.CustomMultiline2Value</td>
-                    <td>@item.CustomMultiline3Value</td>
-                    <td>@item.CustomLink1Value</td>
-                    <td>@item.CustomLink2Value</td>
-                    <td>@item.CustomLink3Value</td>
+                    <th>#</th>
+                    <th>String 1</th>
+                    <th>String 2</th>
+                    <th>String 3</th>
+                    <th>Int 1</th>
+                    <th>Int 2</th>
+                    <th>Int 3</th>
+                    <th>Bool 1</th>
+                    <th>Bool 2</th>
+                    <th>Bool 3</th>
+                    <th>Multiline 1</th>
+                    <th>Multiline 2</th>
+                    <th>Multiline 3</th>
+                    <th>Link 1</th>
+                    <th>Link 2</th>
+                    <th>Link 3</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No items yet.</p>
-}
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.CustomString1Value</td>
+                        <td>@item.CustomString2Value</td>
+                        <td>@item.CustomString3Value</td>
+                        <td>@item.CustomInt1Value</td>
+                        <td>@item.CustomInt2Value</td>
+                        <td>@item.CustomInt3Value</td>
+                        <td>@(item.CustomBool1Value == true ? "Yes" : "No")</td>
+                        <td>@(item.CustomBool2Value == true ? "Yes" : "No")</td>
+                        <td>@(item.CustomBool3Value == true ? "Yes" : "No")</td>
+                        <td>@item.CustomMultiline1Value</td>
+                        <td>@item.CustomMultiline2Value</td>
+                        <td>@item.CustomMultiline3Value</td>
+                        <td>@item.CustomLink1Value</td>
+                        <td>@item.CustomLink2Value</td>
+                        <td>@item.CustomLink3Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No items yet.</p>
+    }
+</div>

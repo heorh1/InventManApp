@@ -15,16 +15,13 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
+
+            // Клик по Add Item
             $(document).on('click', '#btnAddItem', function(e) {
                 e.preventDefault();
-
                 var inventoryId = $(this).data('inventory-id');
 
-                $('#addItemFormContainer').load('/Inventory/GetAddItemForm?inventoryId=' + inventoryId, function(response, status, xhr) {
-                    if (status === "error") {
-                        console.error("Error loading form:", xhr.status, xhr.statusText);
-                    }
-                });
+                $('#addItemFormContainer').load('/Inventory/GetAddItemForm?inventoryId=' + inventoryId);
             });
 
             $(document).on('submit', '#addItemForm', function(e) {
@@ -35,15 +32,16 @@
                     url: $form.attr('action'),
                     type: 'POST',
                     data: $form.serialize(),
-                    success: function (result) {
-                        $('#itemListContainer').html(result);
+                    success: function(result) {
+                        $('#itemListContainer').html(result); 
                         $('#addItemFormContainer').empty();
                     },
-                    error: function () {
-                        alert('Error adding item. Check input values.');
+                    error: function() {
+                        alert('Error adding item. Please check input values.');
                     }
                 });
             });
+
         });
     </script>
 }

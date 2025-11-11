@@ -4,6 +4,7 @@
     @Html.AntiForgeryToken()
     <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
 
+    <!-- Custom Strings -->
     <div class="row">
         @if (!string.IsNullOrEmpty(Model.CustomString1Name))
         {
@@ -28,6 +29,7 @@
         }
     </div>
 
+    <!-- Custom Ints -->
     <div class="row">
         @if (!string.IsNullOrEmpty(Model.CustomInt1Name))
         {
@@ -52,6 +54,7 @@
         }
     </div>
 
+    <!-- Custom Bools -->
     <div class="row">
         @if (!string.IsNullOrEmpty(Model.CustomBool1Name))
         {
@@ -76,6 +79,7 @@
         }
     </div>
 
+    <!-- Custom Multiline -->
     <div class="row">
         @if (!string.IsNullOrEmpty(Model.CustomMultiline1Name))
         {
@@ -100,6 +104,7 @@
         }
     </div>
 
+    <!-- Custom Links -->
     <div class="row">
         @if (!string.IsNullOrEmpty(Model.CustomLink1Name))
         {
