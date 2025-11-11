@@ -32,16 +32,12 @@
             @await Html.PartialAsync("CreateTabs/_CustomId", Model)
             @await Html.PartialAsync("CreateTabs/_Fields", Model)
             @await Html.PartialAsync("CreateTabs/_Access", Model)
+            @await Html.PartialAsync("CreateTabs/_Items", Model)
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Save Inventory</button>
     </div>
 </form>
-
-<div class="tab-pane fade @((ViewBag.ActiveTab == "items") ? "show active" : "")" id="items" role="tabpanel">
-    @await Html.PartialAsync("CreateTabs/_Items", Model)
-</div>
-
 
 @section Scripts {
     <script>
@@ -53,4 +49,6 @@
             }
         });
     </script>
+
+    @RenderSection("Scripts", required: false)
 }
