@@ -43,7 +43,7 @@
             @await Html.PartialAsync("CreateTabs/_Fields", Model)
             @await Html.PartialAsync("CreateTabs/_Access", Model)
             <div class="tab-pane fade @((ViewBag.ActiveTab == "items") ? "show active" : "")" id="items">
-                @await Html.PartialAsync("_Items", Model)
+                @await Html.PartialAsync("~/Views/Inventory/CreateTabs/_Items.cshtml", Model)
             </div>
         </div>
 
