@@ -60,6 +60,12 @@ namespace InventoryManagementApp.Controllers
                     CustomLink2Name = inventory.CustomLink2Name,
                     CustomLink3Name = inventory.CustomLink3Name
                 };
+
+                if (activeTab == "items")
+                {
+                    ViewBag.LoadAddItemForm = true;
+                }
+
             }
             else
             {
