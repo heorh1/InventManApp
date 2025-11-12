@@ -35,15 +35,35 @@
             <li class="nav-item">
                 <button class="nav-link" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type="button">Items</button>
             </li>
+            <li class="nav-item">
+                <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button">Stats</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="chat-tab" data-bs-toggle="tab" data-bs-target="#chat" type="button">Chat</button>
+            </li>
         </ul>
 
         <div class="tab-content p-3 border border-top-0" id="inventoryTabsContent">
-            @await Html.PartialAsync("CreateTabs/_Settings", Model)
-            @await Html.PartialAsync("CreateTabs/_CustomId", Model)
-            @await Html.PartialAsync("CreateTabs/_Fields", Model)
-            @await Html.PartialAsync("CreateTabs/_Access", Model)
-            <div class="tab-pane fade @((ViewBag.ActiveTab == "items") ? "show active" : "")" id="items">
+            <div class="tab-pane fade @(ViewBag.ActiveTab == "settings" ? "show active" : "")" id="settings">
+                @await Html.PartialAsync("CreateTabs/_Settings", Model)
+            </div>
+            <div class="tab-pane fade @(ViewBag.ActiveTab == "customid" ? "show active" : "")" id="customid">
+                @await Html.PartialAsync("CreateTabs/_CustomId", Model)
+            </div>
+            <div class="tab-pane fade @(ViewBag.ActiveTab == "fields" ? "show active" : "")" id="fields">
+                @await Html.PartialAsync("CreateTabs/_Fields", Model)
+            </div>
+            <div class="tab-pane fade @(ViewBag.ActiveTab == "access" ? "show active" : "")" id="access">
+                @await Html.PartialAsync("CreateTabs/_Access", Model)
+            </div>
+            <div class="tab-pane fade @(ViewBag.ActiveTab == "items" ? "show active" : "")" id="items">
                 @await Html.PartialAsync("~/Views/Inventory/CreateTabs/_Items.cshtml", Model)
+            </div>
+            <div class="tab-pane fade @(ViewBag.ActiveTab == "stats" ? "show active" : "")" id="stats">
+                @await Html.PartialAsync("CreateTabs/_Stats", Model)
+            </div>
+            <div class="tab-pane fade @(ViewBag.ActiveTab == "chat" ? "show active" : "")" id="chat">
+                @await Html.PartialAsync("CreateTabs/_Chat", Model)
             </div>
         </div>
 
