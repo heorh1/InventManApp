@@ -1,7 +1,7 @@
 ﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel
 
 <div class="mb-3">
-    <button id="btnAddItem" type="button" class="btn btn-success" data-inventory-id="@Model.InventoryId">
+    <button id="addItemBtn" type="button" class="btn btn-success" data-inventory-id="@Model.InventoryId">
         Add Item
     </button>
 </div>
@@ -11,3 +11,49 @@
 <div id="itemListContainer">
     @await Html.PartialAsync("_ItemListPartial", Model.Items)
 </div>
+
+<script>
+    console.log("Items script loaded. jQuery available:", !!window.jQuery);
+
+    $(document).on("click", "#addItemBtn", function () {
+        var inventoryId = $(this).data("inventory-id");
+        console.log("Add Item clicked, inventoryId=", inventoryId);
+
+        var $button = $(this);
+        var $container = $("#addItemFormContainer");
+
+        $.get("/Inventory/GetAddItemForm", { inventoryId: inventoryId }, function (data, status) {
+            console.log("load callback status:", status);
+            if (status === "success") {
+                $container.html(data);
+                $button.hide();
+            } else {
+                alert("Error loading form. See console.");
+            }
+        });
+    });
+
+    $(document).on("submit", "#addItemForm", function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+        console.log("Submitting AddItem form to:", form.attr("action"));
+
+        $.ajax({
+            url: form.attr("action"),
+            method: "POST",
+            data: form.serialize(),
+            success: function (result) {
+                console.log("AddItem AJAX success");
+                $("#itemListContainer").html(result);
+                form.remove();
+                $("#addItemBtn").show();
+            },
+            error: function (xhr) {
+                console.error("AddItem AJAX error:", xhr);
+                alert("Error adding item: " + xhr.status);
+            }
+        });
+    });
+</script>
+

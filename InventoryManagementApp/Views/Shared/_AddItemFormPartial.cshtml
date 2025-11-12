@@ -1,6 +1,6 @@
 ﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.AddItemViewModel
 
-<form id="addItemForm" asp-action="AddItem" method="post">
+<form id="addItemForm" asp-controller="Inventory" asp-action="AddItem" method="post">
     @Html.AntiForgeryToken()
     <input type="hidden" name="InventoryId" value="@Model.InventoryId" />
 
