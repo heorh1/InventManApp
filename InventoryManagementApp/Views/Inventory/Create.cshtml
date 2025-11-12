@@ -21,25 +21,67 @@
     <div class="tab-container">
         <ul class="nav nav-tabs" id="inventoryTabs" role="tablist">
             <li class="nav-item">
-                <button class="nav-link active" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button">Settings</button>
+                <button class="nav-link @(ViewBag.ActiveTab == "settings" ? "active" : "")"
+                        id="settings-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#settings"
+                        type="button">
+                    Settings
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" id="customid-tab" data-bs-toggle="tab" data-bs-target="#customid" type="button">Custom ID</button>
+                <button class="nav-link @(ViewBag.ActiveTab == "customid" ? "active" : "")"
+                        id="customid-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#customid"
+                        type="button">
+                    Custom ID
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" id="fields-tab" data-bs-toggle="tab" data-bs-target="#fields" type="button">Fields</button>
+                <button class="nav-link @(ViewBag.ActiveTab == "fields" ? "active" : "")"
+                        id="fields-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#fields"
+                        type="button">
+                    Fields
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" id="access-tab" data-bs-toggle="tab" data-bs-target="#access" type="button">Access</button>
+                <button class="nav-link @(ViewBag.ActiveTab == "access" ? "active" : "")"
+                        id="access-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#access"
+                        type="button">
+                    Access
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type="button">Items</button>
+                <button class="nav-link @(ViewBag.ActiveTab == "items" ? "active" : "")"
+                        id="items-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#items"
+                        type="button">
+                    Items
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button">Stats</button>
+                <button class="nav-link @(ViewBag.ActiveTab == "stats" ? "active" : "")"
+                        id="stats-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#stats"
+                        type="button">
+                    Stats
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" id="chat-tab" data-bs-toggle="tab" data-bs-target="#chat" type="button">Chat</button>
+                <button class="nav-link @(ViewBag.ActiveTab == "chat" ? "active" : "")"
+                        id="chat-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#chat"
+                        type="button">
+                    Chat
+                </button>
             </li>
         </ul>
 
