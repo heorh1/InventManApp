@@ -21,92 +21,38 @@
     <div class="tab-container">
         <ul class="nav nav-tabs" id="inventoryTabs" role="tablist">
             <li class="nav-item">
-                <button class="nav-link @(ViewBag.ActiveTab == "settings" ? "active" : "")"
-                        id="settings-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#settings"
-                        type="button">
-                    Settings
-                </button>
+                <button class="nav-link active" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button">Settings</button>
             </li>
             <li class="nav-item">
-                <button class="nav-link @(ViewBag.ActiveTab == "customid" ? "active" : "")"
-                        id="customid-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#customid"
-                        type="button">
-                    Custom ID
-                </button>
+                <button class="nav-link" id="customid-tab" data-bs-toggle="tab" data-bs-target="#customid" type="button">Custom ID</button>
             </li>
             <li class="nav-item">
-                <button class="nav-link @(ViewBag.ActiveTab == "fields" ? "active" : "")"
-                        id="fields-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#fields"
-                        type="button">
-                    Fields
-                </button>
+                <button class="nav-link" id="fields-tab" data-bs-toggle="tab" data-bs-target="#fields" type="button">Fields</button>
             </li>
             <li class="nav-item">
-                <button class="nav-link @(ViewBag.ActiveTab == "access" ? "active" : "")"
-                        id="access-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#access"
-                        type="button">
-                    Access
-                </button>
+                <button class="nav-link" id="access-tab" data-bs-toggle="tab" data-bs-target="#access" type="button">Access</button>
             </li>
             <li class="nav-item">
-                <button class="nav-link @(ViewBag.ActiveTab == "items" ? "active" : "")"
-                        id="items-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#items"
-                        type="button">
-                    Items
-                </button>
+                <button class="nav-link" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type="button">Items</button>
             </li>
             <li class="nav-item">
-                <button class="nav-link @(ViewBag.ActiveTab == "stats" ? "active" : "")"
-                        id="stats-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#stats"
-                        type="button">
-                    Stats
-                </button>
+                <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button">Stats</button>
             </li>
             <li class="nav-item">
-                <button class="nav-link @(ViewBag.ActiveTab == "chat" ? "active" : "")"
-                        id="chat-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#chat"
-                        type="button">
-                    Chat
-                </button>
+                <button class="nav-link" id="chat-tab" data-bs-toggle="tab" data-bs-target="#chat" type="button">Chat</button>
             </li>
         </ul>
 
         <div class="tab-content p-3 border border-top-0" id="inventoryTabsContent">
-            <div class="tab-pane fade @(ViewBag.ActiveTab == "settings" ? "show active" : "")" id="settings">
-                @await Html.PartialAsync("CreateTabs/_Settings", Model)
-            </div>
-            <div class="tab-pane fade @(ViewBag.ActiveTab == "customid" ? "show active" : "")" id="customid">
-                @await Html.PartialAsync("CreateTabs/_CustomId", Model)
-            </div>
-            <div class="tab-pane fade @(ViewBag.ActiveTab == "fields" ? "show active" : "")" id="fields">
-                @await Html.PartialAsync("CreateTabs/_Fields", Model)
-            </div>
-            <div class="tab-pane fade @(ViewBag.ActiveTab == "access" ? "show active" : "")" id="access">
-                @await Html.PartialAsync("CreateTabs/_Access", Model)
-            </div>
-            <div class="tab-pane fade @(ViewBag.ActiveTab == "items" ? "show active" : "")" id="items">
+            @await Html.PartialAsync("CreateTabs/_Settings", Model)
+            @await Html.PartialAsync("CreateTabs/_CustomId", Model)
+            @await Html.PartialAsync("CreateTabs/_Fields", Model)
+            @await Html.PartialAsync("CreateTabs/_Access", Model)
+            <div class="tab-pane fade @((ViewBag.ActiveTab == "items") ? "show active" : "")" id="items">
                 @await Html.PartialAsync("~/Views/Inventory/CreateTabs/_Items.cshtml", Model)
             </div>
-            <div class="tab-pane fade @(ViewBag.ActiveTab == "stats" ? "show active" : "")" id="stats">
-                @await Html.PartialAsync("CreateTabs/_Stats", Model)
-            </div>
-            <div class="tab-pane fade @(ViewBag.ActiveTab == "chat" ? "show active" : "")" id="chat">
-                @await Html.PartialAsync("CreateTabs/_Chat", Model)
-            </div>
+            @await Html.PartialAsync("CreateTabs/_Stats.cshtml", Model)
+            @await Html.PartialAsync("~/Views/Inventory/CreateTabs/_Chat.cshtml", Model)
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Save Inventory</button>
