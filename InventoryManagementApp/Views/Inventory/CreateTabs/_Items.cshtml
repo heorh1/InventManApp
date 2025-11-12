@@ -12,48 +12,57 @@
     @await Html.PartialAsync("_ItemListPartial", Model.Items)
 </div>
 
-<script>
-    console.log("Items script loaded. jQuery available:", !!window.jQuery);
-
-    $(document).on("click", "#addItemBtn", function () {
-        var inventoryId = $(this).data("inventory-id");
-        console.log("Add Item clicked, inventoryId=", inventoryId);
-
-        var $button = $(this);
-        var $container = $("#addItemFormContainer");
-
-        $.get("/Inventory/GetAddItemForm", { inventoryId: inventoryId }, function (data, status) {
-            console.log("load callback status:", status);
-            if (status === "success") {
-                $container.html(data);
-                $button.hide();
-            } else {
-                alert("Error loading form. See console.");
+@section Scripts {
+    <script>
+        function initItemsScript() {
+            if (typeof $ === 'undefined') {
+                setTimeout(initItemsScript, 50); 
+                return;
             }
-        });
-    });
 
-    $(document).on("submit", "#addItemForm", function (e) {
-        e.preventDefault();
+            console.log("Items script loaded. jQuery available:", !!$);
 
-        var form = $(this);
-        console.log("Submitting AddItem form to:", form.attr("action"));
+            $(document).off('click', '#addItemBtn').on('click', '#addItemBtn', function (e) {
+                e.preventDefault();
+                var inventoryId = $(this).data('inventory-id');
+                console.log("Add Item clicked, inventoryId=", inventoryId);
 
-        $.ajax({
-            url: form.attr("action"),
-            method: "POST",
-            data: form.serialize(),
-            success: function (result) {
-                console.log("AddItem AJAX success");
-                $("#itemListContainer").html(result);
-                form.remove();
-                $("#addItemBtn").show();
-            },
-            error: function (xhr) {
-                console.error("AddItem AJAX error:", xhr);
-                alert("Error adding item: " + xhr.status);
-            }
-        });
-    });
-</script>
+                $('#addItemFormContainer').load('/Inventory/GetAddItemForm?inventoryId=' + inventoryId, function (response, status, xhr) {
+                    console.log("Load callback status:", status);
+                    if (status === "error") {
+                        console.error("Error loading add-item form:", xhr.status, xhr.statusText);
+                        alert("Form loading error.");
+                    } else {
+                        var itemsTab = document.querySelector('#items-tab');
+                        if (itemsTab) {
+                            try { new bootstrap.Tab(itemsTab).show(); } catch(e) {}
+                        }
+                    }
+                });
+            });
 
+            $(document).off('submit', '#addItemForm').on('submit', '#addItemForm', function (e) {
+                e.preventDefault();
+                var $form = $(this);
+                console.log("Submitting addItemForm, action:", $form.attr('action'));
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function (result) {
+                        console.log("AddItem AJAX success");
+                        $('#itemListContainer').html(result);
+                        $('#addItemFormContainer').empty();
+                    },
+                    error: function (xhr, status, err) {
+                        console.error("AddItem AJAX error:", status, err, xhr);
+                        alert('Error adding item/network.');
+                    }
+                });
+            });
+        }
+
+        initItemsScript();
+    </script>
+}
