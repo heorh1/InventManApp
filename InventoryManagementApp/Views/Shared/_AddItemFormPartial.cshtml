@@ -59,21 +59,21 @@
         @if (!string.IsNullOrEmpty(Model.CustomBool1Name))
         {
             <div class="col-md-4 mb-3 form-check">
-                <input name="CustomBool1Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool1Value == true ? "checked" : "") />
+                <input name="CustomBool1Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool1Value.GetValueOrDefault() ? "checked" : "") />
                 <label class="form-check-label">@Model.CustomBool1Name</label>
             </div>
         }
         @if (!string.IsNullOrEmpty(Model.CustomBool2Name))
         {
             <div class="col-md-4 mb-3 form-check">
-                <input name="CustomBool2Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool2Value == true ? "checked" : "") />
+                <input name="CustomBool2Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool2Value.GetValueOrDefault() ? "checked" : "") />
                 <label class="form-check-label">@Model.CustomBool2Name</label>
             </div>
         }
         @if (!string.IsNullOrEmpty(Model.CustomBool3Name))
         {
             <div class="col-md-4 mb-3 form-check">
-                <input name="CustomBool3Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool3Value == true ? "checked" : "") />
+                <input name="CustomBool3Value" type="checkbox" class="form-check-input" value="true" @(Model.CustomBool3Value.GetValueOrDefault() ? "checked" : "") />
                 <label class="form-check-label">@Model.CustomBool3Name</label>
             </div>
         }
@@ -129,5 +129,5 @@
         }
     </div>
 
-    <button type="submit" class="btn btn-success mt-3">Add Item</button>
+    <button type="submit" class="btn btn-success mt-3">Save Item</button>
 </form>

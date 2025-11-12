@@ -6,7 +6,7 @@
     </button>
 </div>
 
-<div id="addItemContainer"></div>
+<div id="addItemFormContainer"></div>
 
 <div id="itemListContainer">
     @await Html.PartialAsync("_ItemListPartial", Model.Items)
@@ -20,37 +20,44 @@
                 return;
             }
 
-            console.log("Items script loaded. jQuery available:", typeof $ === 'function');
+            console.log("Items script loaded. jQuery available:", !!$);
 
-            const inventoryId = @Model.InventoryId;
-
-            @if (ViewBag.LoadAddItemForm != null && (bool)ViewBag.LoadAddItemForm)
-            {
-                    <text>
-                    $("#addItemContainer").load('/Inventory/GetAddItemForm?inventoryId=' + @Model.InventoryId);
-                    </text>
-            }
-
-            $(document).off("click", "#addItemBtn").on("click", "#addItemBtn", function (e) {
+            $(document).off('click', '#addItemBtn').on('click', '#addItemBtn', function (e) {
                 e.preventDefault();
-                $("#addItemContainer").load('/Inventory/GetAddItemForm?inventoryId=' + inventoryId);
+                var inventoryId = $(this).data('inventory-id');
+                console.log("Add Item clicked, inventoryId=", inventoryId);
+
+                $('#addItemFormContainer').load('/Inventory/GetAddItemForm?inventoryId=' + inventoryId, function (response, status, xhr) {
+                    console.log("Load callback status:", status);
+                    if (status === "error") {
+                        console.error("Error loading add-item form:", xhr.status, xhr.statusText);
+                        alert("Ошибка загрузки формы.");
+                    } else {
+                        var itemsTab = document.querySelector('#items-tab');
+                        if (itemsTab) {
+                            try { new bootstrap.Tab(itemsTab).show(); } catch(e) {}
+                        }
+                    }
+                });
             });
 
-            $(document).off("submit", "#addItemForm").on("submit", "#addItemForm", function (e) {
+            $(document).off('submit', '#addItemForm').on('submit', '#addItemForm', function (e) {
                 e.preventDefault();
                 var $form = $(this);
+                console.log("Submitting addItemForm, action:", $form.attr('action'));
 
                 $.ajax({
-                    url: $form.attr("action"),
-                    type: "POST",
+                    url: $form.attr('action'),
+                    type: 'POST',
                     data: $form.serialize(),
                     success: function (result) {
-                        $("#itemListContainer").html(result);
-                        $("#addItemContainer").empty();
+                        console.log("AddItem AJAX success");
+                        $('#itemListContainer').html(result);
+                        $('#addItemFormContainer').empty();
                     },
                     error: function (xhr, status, err) {
                         console.error("AddItem AJAX error:", status, err, xhr);
-                        alert('Adding item error/network.');
+                        alert('Ошибка добавления айтема. Проверьте консоль/network.');
                     }
                 });
             });
