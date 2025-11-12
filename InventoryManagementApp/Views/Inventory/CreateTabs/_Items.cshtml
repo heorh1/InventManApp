@@ -1,7 +1,7 @@
 ﻿@model InventoryManagementApp.ViewModels.InventoryViewModels.InventoryCreateViewModel
 
 <div class="mb-3">
-    <button id="btnAddItem" class="btn btn-success" data-inventory-id="@Model.InventoryId">
+    <button id="btnAddItem" type="button" class="btn btn-success" data-inventory-id="@Model.InventoryId">
         Add Item
     </button>
 </div>
@@ -14,34 +14,48 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function() {
+        $(function () {
+            console.log("Items partial script initialized. jQuery ok:", typeof $ === 'function');
 
-            // Клик по Add Item
-            $(document).on('click', '#btnAddItem', function(e) {
-                e.preventDefault();
+            $(document).on('click', '#btnAddItem', function (e) {
+                e.preventDefault(); 
                 var inventoryId = $(this).data('inventory-id');
+                console.log("Add Item clicked, inventoryId=", inventoryId);
 
-                $('#addItemFormContainer').load('/Inventory/GetAddItemForm?inventoryId=' + inventoryId);
+                $('#addItemFormContainer').load('/Inventory/GetAddItemForm?inventoryId=' + inventoryId, function (response, status, xhr) {
+                    console.log("load callback status:", status);
+                    if (status === "error") {
+                        console.error("Error loading add-item form:", xhr.status, xhr.statusText);
+                        alert("Ошибка загрузки формы. Смотрите консоль (network / console).");
+                    } else {
+                        var itemsTab = document.querySelector('#items-tab');
+                        if (itemsTab) {
+                            try { new bootstrap.Tab(itemsTab).show(); } catch(e) {}
+                        }
+                    }
+                });
             });
 
-            $(document).on('submit', '#addItemForm', function(e) {
+            $(document).on('submit', '#addItemForm', function (e) {
                 e.preventDefault();
                 var $form = $(this);
+                console.log("Submitting addItemForm, action:", $form.attr('action'));
 
                 $.ajax({
                     url: $form.attr('action'),
                     type: 'POST',
                     data: $form.serialize(),
-                    success: function(result) {
-                        $('#itemListContainer').html(result); 
+                    success: function (result) {
+                        console.log("AddItem AJAX success");
+                        $('#itemListContainer').html(result);
                         $('#addItemFormContainer').empty();
                     },
-                    error: function() {
-                        alert('Error adding item. Please check input values.');
+                    error: function (xhr, status, err) {
+                        console.error("AddItem AJAX error:", status, err, xhr);
+                        alert('Error adding item. Check console/network for details.');
                     }
                 });
             });
-
         });
     </script>
 }
